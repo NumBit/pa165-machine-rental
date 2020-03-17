@@ -1,0 +1,6 @@
+# IDEA
+.idea/
+**/build
+**/out
+**/target
+**/*.iml
