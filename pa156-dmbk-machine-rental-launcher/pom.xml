@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent> <!-- defines parent pom to inherit basic configuration -->
+        <artifactId>pa165-dmbk-machine-rental</artifactId>
+        <groupId>cz.muni.fi</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>  <!-- lookup parent from repository -->
+    </parent>
+
+    <artifactId>pa156-dmbk-machine-rental-launcher</artifactId>
+    <!-- groupId is inherited -->
+    <!-- version is inherited -->
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>cz.muni.fi</groupId>
+            <artifactId>pa165-dmbk-machine-rental-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cz.muni.fi</groupId>
+            <artifactId>pa165-dmbk-machine-rental-frontend</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency> <!-- web initializer -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency> <!-- in memory database shouldnt be used for production -->
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>mr-launcher</finalName>
+        <plugins>
+            <plugin> <!-- plugin to create über WAR file containing all dependencies -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
