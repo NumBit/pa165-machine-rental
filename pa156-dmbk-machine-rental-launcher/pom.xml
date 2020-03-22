@@ -14,7 +14,7 @@
     <artifactId>pa156-dmbk-machine-rental-launcher</artifactId>
     <!-- groupId is inherited -->
     <!-- version is inherited -->
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
