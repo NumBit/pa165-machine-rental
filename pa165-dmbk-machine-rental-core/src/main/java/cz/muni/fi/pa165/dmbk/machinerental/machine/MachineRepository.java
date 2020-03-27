@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.dmbk.machinerental.machine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Repository declaration for Machine DAO providing JPA
  *
@@ -12,5 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MachineRepository extends JpaRepository<Machine, Long> {
+    List<Machine> findByName(String name);
 
+    List<Machine> findByManufacturer(String manufacturer);
 }
