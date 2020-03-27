@@ -1,10 +1,7 @@
 package cz.muni.fi.pa165.dmbk.machinerental.rental.dao;
 
 import cz.muni.fi.pa165.dmbk.machinerental.user.dao.Customer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @EqualsAndHashCode
 @Table(name = "RENTAL")
 public class Rental {
