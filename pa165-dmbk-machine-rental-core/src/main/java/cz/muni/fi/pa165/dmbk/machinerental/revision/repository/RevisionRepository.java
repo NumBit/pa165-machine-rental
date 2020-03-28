@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface RevisionRepository extends JpaRepository<Revision, Long> {
 
-    List<Revision> findAllByMachine_Id(Long machineId);
+    List<Revision> findAllByMachineId(Long machineId);
 
     List<Revision> findAllByDate(LocalDate revisionDate);
 
