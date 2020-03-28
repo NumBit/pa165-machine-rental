@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Long> {
     List<Rental> findAllByCustomerId(Long customerId);
-//    List<Rental> findAllByMachineId(Long machineId);
+    List<Rental> findAllByMachineId(Long machineId);
     List<Rental> findAllByRentalDateAfter(LocalDate rentalDate);
     List<Rental> findAllByRentalDateBefore(LocalDate rentalDate);
     List<Rental> findAllByRentalDateBetween(LocalDate rentalDateStart, LocalDate rentalDateEnd);
