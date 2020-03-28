@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dmbk.machinerental.rental.dao;
 
+import cz.muni.fi.pa165.dmbk.machinerental.machine.Machine;
 import cz.muni.fi.pa165.dmbk.machinerental.user.dao.Customer;
 import lombok.*;
 
@@ -34,9 +35,9 @@ public class Rental {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-//    @ManyToOne
-//    @JoinColumn(name = "machine_id", nullable = false)
-//    private Machine machine;
+    @ManyToOne
+    @JoinColumn(name = "machine_id", nullable = false)
+    private Machine machine;
 
     private String description;
 }
