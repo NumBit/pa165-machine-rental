@@ -22,6 +22,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Test class providing unit tests for repository
+ * {@link RentalRepository} and its data access objects
+ * {@link Rental}. Unit tests use in-memory H2 database
+ * to simulate database used in production. These tests
+ * have dependencies on {@link MachineRepository} and
+ * {@link UserRepository} repositories and will not work
+ * without them provided in spring context.
+ *
+ * @author Norbert Dopjera 456355@mail.muni.cz
+ */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class RentalDataLayerTest {
