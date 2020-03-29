@@ -24,7 +24,7 @@ import java.time.LocalDate;
 public class Revision {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private LocalDate date;
