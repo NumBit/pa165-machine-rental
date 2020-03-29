@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.machine.Machine;
 import cz.muni.fi.pa165.dmbk.machinerental.machine.MachineRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.revision.dao.Revision;
 import cz.muni.fi.pa165.dmbk.machinerental.revision.repository.RevisionRepository;
-import cz.muni.fi.pa165.dmbk.machinerental.user.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +36,6 @@ public class RevisionDataLayerTest {
     private MachineRepository machineRepository;
     @Autowired
     private RevisionRepository revisionRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Before
     public void setUp() {
@@ -133,8 +130,8 @@ public class RevisionDataLayerTest {
     @Test
     @Rollback
     public void findAllRevisionsByMachineId() {
-        var newRevision = revisionRepository.saveAndFlush(getNewRevision(storedMachine));
-        var newRevision2 = revisionRepository.saveAndFlush(getNewRevision(storedMachine));
+        revisionRepository.saveAndFlush(getNewRevision(storedMachine));
+        revisionRepository.saveAndFlush(getNewRevision(storedMachine));
         var revisions = revisionRepository.findAllByMachineId(storedMachineId);
         Assert.assertEquals(3, revisions.size());
     }
