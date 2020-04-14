@@ -1,9 +1,8 @@
 package cz.muni.fi.pa165.dmbk.machinerental.dao.user;
 
 import com.sun.istack.NotNull;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.Admin;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.Customer;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;

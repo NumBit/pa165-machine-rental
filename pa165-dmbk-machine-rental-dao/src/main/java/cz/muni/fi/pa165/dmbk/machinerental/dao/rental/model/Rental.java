@@ -1,7 +1,7 @@
-package cz.muni.fi.pa165.dmbk.machinerental.dao.rental.dao;
+package cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.Customer;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import lombok.*;
 
 import javax.persistence.*;

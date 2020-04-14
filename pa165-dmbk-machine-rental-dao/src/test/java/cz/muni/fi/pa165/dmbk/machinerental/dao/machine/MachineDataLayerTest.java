@@ -1,8 +1,6 @@
 package cz.muni.fi.pa165.dmbk.machinerental.dao.machine;
 
 import com.sun.istack.NotNull;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

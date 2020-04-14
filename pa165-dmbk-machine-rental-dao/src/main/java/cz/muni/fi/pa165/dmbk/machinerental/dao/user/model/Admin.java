@@ -1,6 +1,5 @@
-package cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao;
+package cz.muni.fi.pa165.dmbk.machinerental.dao.user.model;
 
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * This DAO class represents customer table inside
+ * This DAO class represents admin table inside
  * application database. Table will hold foreign
  * key, as reference to ID inside a table representing
  * parent class {@link AbstractUser}. This way
@@ -22,21 +21,19 @@ import javax.persistence.Table;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "CUSTOMER")
+@Table(name = "ADMIN")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Customer extends AbstractUser {
+public class Admin extends AbstractUser {
 
-    private LegalForm legalForm;
-
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = false) private String name;
+    @Column(nullable = false) private String sureName;
 
     @lombok.Builder(builderClassName = "Builder", toBuilder = true)
-    public Customer(Long id, String login, String passwordHash,
-                    String email, LegalForm legalForm) {
+    public Admin(Long id, String login, String passwordHash,
+                 String name, String sureName) {
         super(id, login, passwordHash);
-        this.legalForm = legalForm;
-        this.email = email;
+        this.name = name;
+        this.sureName = sureName;
     }
 }

@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.dmbk.machinerental.dao.revision;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.revision.dao.Revision;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.revision.model.Revision;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.revision.repository.RevisionRepository;
 import org.junit.Assert;
 import org.junit.Before;

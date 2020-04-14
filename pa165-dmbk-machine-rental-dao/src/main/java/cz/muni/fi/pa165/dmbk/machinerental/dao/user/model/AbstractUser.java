@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao;
+package cz.muni.fi.pa165.dmbk.machinerental.dao.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

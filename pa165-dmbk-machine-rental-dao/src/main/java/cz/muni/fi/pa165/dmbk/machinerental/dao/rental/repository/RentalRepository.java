@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.dmbk.machinerental.dao.rental.repository;
 
-import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.dao.Rental;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

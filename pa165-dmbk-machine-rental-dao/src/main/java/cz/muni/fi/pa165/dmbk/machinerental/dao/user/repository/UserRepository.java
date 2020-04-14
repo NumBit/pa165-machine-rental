@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.dmbk.machinerental.dao.user.repository;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.AbstractUser;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.Admin;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.Customer;
-import cz.muni.fi.pa165.dmbk.machinerental.dao.user.dao.User;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.AbstractUser;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

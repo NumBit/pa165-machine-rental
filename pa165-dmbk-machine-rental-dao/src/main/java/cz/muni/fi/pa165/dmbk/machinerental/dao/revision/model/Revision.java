@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dmbk.machinerental.dao.revision.dao;
+package cz.muni.fi.pa165.dmbk.machinerental.dao.revision.model;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
 import lombok.*;
