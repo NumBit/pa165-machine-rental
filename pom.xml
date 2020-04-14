@@ -26,8 +26,10 @@
     </properties>
 
     <modules>
-        <module>pa165-dmbk-machine-rental-core</module>
+        <module>pa165-dmbk-machine-rental-dao</module>
         <module>pa165-dmbk-machine-rental-frontend</module>
         <module>pa156-dmbk-machine-rental-launcher</module>
+        <module>pa165-dmbk-machine-rental-service</module>
+        <module>pa165-dmbk-machine-rental-facade-api</module>
     </modules>
 </project>
