@@ -7,7 +7,7 @@
     <parent> <!-- main spring boot dependency -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.2.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -26,8 +26,10 @@
     </properties>
 
     <modules>
-        <module>pa165-dmbk-machine-rental-core</module>
+        <module>pa165-dmbk-machine-rental-dao</module>
         <module>pa165-dmbk-machine-rental-frontend</module>
         <module>pa156-dmbk-machine-rental-launcher</module>
+        <module>pa165-dmbk-machine-rental-service</module>
+        <module>pa165-dmbk-machine-rental-facade-api</module>
     </modules>
 </project>
