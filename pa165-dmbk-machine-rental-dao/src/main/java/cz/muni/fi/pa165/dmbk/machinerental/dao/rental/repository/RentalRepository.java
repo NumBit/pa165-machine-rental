@@ -19,7 +19,9 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     List<Rental> findAllByRentalDateAfter(LocalDate rentalDate);
     List<Rental> findAllByRentalDateBefore(LocalDate rentalDate);
     List<Rental> findAllByRentalDateBetween(LocalDate rentalDateStart, LocalDate rentalDateEnd);
+    List<Rental> findAllByRentalDateBetweenAndMachineId(LocalDate rentalDateStart, LocalDate rentalDateEnd, Long machineId);
     List<Rental> findAllByReturnDateAfter(LocalDate returnDate);
     List<Rental> findAllByReturnDateBefore(LocalDate returnDate);
     List<Rental> findAllByReturnDateBetween(LocalDate returnDateStart, LocalDate returnDateEnd);
+    List<Rental> findAllByReturnDateBetweenAndMachineId(LocalDate returnDateStart, LocalDate returnDateEnd, Long machineId);
 }
