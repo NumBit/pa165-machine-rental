@@ -20,35 +20,42 @@ import java.util.List;
 public class MachineFacadeImpl implements MachineFacade {
 
     @Autowired
+    private BeanMappingService beanMappingService;
+
+    @Autowired
     private MachineService machineService;
 
     @Override
     public void persistMachine(MachineDto machine) {
-        //machineService.persistMachine(machine));
+        machineService.persistMachine(beanMappingService.mapTo(machine, Machine.class));
     }
 
     @Override
-    public List<Machine> findByName(String name) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<MachineDto> findByName(String name) {
+        return beanMappingService.mapTo(machineService.findByName(name), MachineDto.class);
     }
 
     @Override
-    public List<Machine> findByNameLike(String name) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<MachineDto> findByNameLike(String name) {
+        return beanMappingService.mapTo(machineService.findByNameLike(name), MachineDto.class);
     }
 
     @Override
-    public List<Machine> findByManufacturer(String manufacturer) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<MachineDto> findByManufacturer(String manufacturer) {
+        return beanMappingService.mapTo(machineService.findByManufacturer(manufacturer), MachineDto.class);
     }
 
     @Override
-    public List<Machine> findByManufacturerLike(String manufacturer) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<MachineDto> findByManufacturerLike(String manufacturer) {
+        return beanMappingService.mapTo(machineService.findByManufacturerLike(manufacturer), MachineDto.class);
     }
 
     @Override
     public void deleteMachineById(Long id) {
-
+        machineService.deleteMachineById(id);
     }
 }

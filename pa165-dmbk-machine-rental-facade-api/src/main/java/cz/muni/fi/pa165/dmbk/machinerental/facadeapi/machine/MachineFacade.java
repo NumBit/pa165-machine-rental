@@ -18,9 +18,9 @@ import java.util.Optional;
 
 public interface MachineFacade {
     void persistMachine(MachineDto machine);
-    List<Machine> findByName(String name);
-    List<Machine> findByNameLike(String name);
-    List<Machine> findByManufacturer(String manufacturer);
-    List<Machine> findByManufacturerLike(String manufacturer);
+    List<MachineDto> findByName(String name);
+    List<MachineDto> findByNameLike(String name);
+    List<MachineDto> findByManufacturer(String manufacturer);
+    List<MachineDto> findByManufacturerLike(String manufacturer);
     void deleteMachineById(Long id);
 }
