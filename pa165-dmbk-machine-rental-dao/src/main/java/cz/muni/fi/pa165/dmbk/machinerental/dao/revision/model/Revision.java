@@ -27,10 +27,10 @@ public class Revision {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDate revisionDate;
 
     @Column (nullable = false)
-    private Time time;
+    private Time revisionTime;
 
     @ManyToOne
     @JoinColumn(name = "machine_id",nullable = false)
