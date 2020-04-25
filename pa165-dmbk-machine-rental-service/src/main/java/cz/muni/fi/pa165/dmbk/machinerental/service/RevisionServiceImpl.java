@@ -46,22 +46,22 @@ public class RevisionServiceImpl implements RevisionService {
 
     @Override
     public List<Revision> findAllByDate(LocalDate revisionDate) {
-        return revisionRepository.findAllByDate(revisionDate);
+        return revisionRepository.findAllByRevisionDate(revisionDate);
     }
 
     @Override
     public List<Revision> findAllByDateAfter(LocalDate revisionDate) {
-        return revisionRepository.findAllByDateAfter(revisionDate);
+        return revisionRepository.findAllByRevisionDateAfter(revisionDate);
     }
 
     @Override
     public List<Revision> findAllByDateBefore(LocalDate revisionDate) {
-        return revisionRepository.findAllByDateAfter(revisionDate);
+        return revisionRepository.findAllByRevisionDateAfter(revisionDate);
     }
 
     @Override
     public List<Revision> findAllByDateBetween(LocalDate revisionDateFrom, LocalDate revisionDateTo) {
-        return revisionRepository.findAllByDateBetween(revisionDateFrom, revisionDateTo);
+        return revisionRepository.findAllByRevisionDateBetween(revisionDateFrom, revisionDateTo);
     }
 
     @Override

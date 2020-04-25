@@ -16,11 +16,11 @@ public interface RevisionRepository extends JpaRepository<Revision, Long> {
 
     List<Revision> findAllByMachineId(Long machineId);
 
-    List<Revision> findAllByDate(LocalDate revisionDate);
+    List<Revision> findAllByRevisionDate(LocalDate revisionDate);
 
-    List<Revision> findAllByDateAfter(LocalDate revisionDate);
+    List<Revision> findAllByRevisionDateAfter(LocalDate revisionDate);
 
-    List<Revision> findAllByDateBefore(LocalDate revisionDate);
+    List<Revision> findAllByRevisionDateBefore(LocalDate revisionDate);
 
-    List<Revision> findAllByDateBetween(LocalDate revisionDateFrom, LocalDate revisionDateTo);
+    List<Revision> findAllByRevisionDateBetween(LocalDate revisionDateFrom, LocalDate revisionDateTo);
 }
