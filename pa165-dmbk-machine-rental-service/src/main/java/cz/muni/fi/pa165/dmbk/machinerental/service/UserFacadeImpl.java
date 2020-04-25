@@ -31,8 +31,8 @@ public class UserFacadeImpl implements UserFacade {
     @Autowired private UserService userService;
 
     @Override
-    public void persistUser(UserDto userDto) {
-        userService.persistUser(userDtoToEntity(userDto));
+    public Long persistUser(UserDto userDto) {
+        return userService.persistUser(userDtoToEntity(userDto));
     }
 
     @Override

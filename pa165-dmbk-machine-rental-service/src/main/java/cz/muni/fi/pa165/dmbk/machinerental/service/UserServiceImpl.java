@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired private UserRepository userRepository;
 
-    public void persistUser(User user) {
+    public Long persistUser(User user) {
         // safe cast since repository cannot work with user interface
-        exceptionCatcher(() -> userRepository.save((AbstractUser) user));
+        return exceptionCatcher(() -> userRepository.save((AbstractUser) user)).getId();
     }
 
     public Optional<User> findById(Long id) {

@@ -141,9 +141,9 @@ public class RevisionDataLayerTest {
     public void findAllByDate() {
         var newRevision = getNewRevision(storedMachine);
         var date = LocalDate.of(2018, 8, 10);
-        newRevision.setDate(date);
+        newRevision.setRevisionDate(date);
         revisionRepository.saveAndFlush(newRevision);
-        var foundByDate = revisionRepository.findAllByDate(date);
+        var foundByDate = revisionRepository.findAllByRevisionDate(date);
         Assert.assertEquals(1, foundByDate.size());
     }
 
@@ -154,11 +154,11 @@ public class RevisionDataLayerTest {
         var date = LocalDate.of(2018, 8, 10);
         var dateAfter = LocalDate.of(2017, 5, 5);
         var dateLate = LocalDate.of(2019, 5, 5);
-        newRevision.setDate(date);
+        newRevision.setRevisionDate(date);
         revisionRepository.saveAndFlush(newRevision);
-        var foundByDateAfter = revisionRepository.findAllByDateAfter(dateAfter);
+        var foundByDateAfter = revisionRepository.findAllByRevisionDateAfter(dateAfter);
         Assert.assertEquals(1, foundByDateAfter.size());
-        foundByDateAfter = revisionRepository.findAllByDateAfter(dateLate);
+        foundByDateAfter = revisionRepository.findAllByRevisionDateAfter(dateLate);
         Assert.assertEquals(0, foundByDateAfter.size());
     }
 
@@ -169,11 +169,11 @@ public class RevisionDataLayerTest {
         var date = LocalDate.of(2018, 8, 10);
         var dateBefore = LocalDate.of(2017, 5, 5);
         var dateLate = LocalDate.of(2010, 5, 5);
-        newRevision.setDate(date);
+        newRevision.setRevisionDate(date);
         revisionRepository.saveAndFlush(newRevision);
-        var foundByDateBefore = revisionRepository.findAllByDateBefore(dateBefore);
+        var foundByDateBefore = revisionRepository.findAllByRevisionDateBefore(dateBefore);
         Assert.assertEquals(1, foundByDateBefore.size());
-        foundByDateBefore = revisionRepository.findAllByDateBefore(dateLate);
+        foundByDateBefore = revisionRepository.findAllByRevisionDateBefore(dateLate);
         Assert.assertEquals(0, foundByDateBefore.size());
     }
 
@@ -185,11 +185,11 @@ public class RevisionDataLayerTest {
         var dateBefore = LocalDate.of(2014, 5, 5);
         var dateAfter = LocalDate.of(2019, 10, 2);
         var dateLate = LocalDate.of(2010, 7, 17);
-        newRevision.setDate(date);
+        newRevision.setRevisionDate(date);
         revisionRepository.saveAndFlush(newRevision);
-        var foundByDateBetween = revisionRepository.findAllByDateBetween(dateBefore, dateAfter);
+        var foundByDateBetween = revisionRepository.findAllByRevisionDateBetween(dateBefore, dateAfter);
         Assert.assertEquals(2, foundByDateBetween.size());
-        foundByDateBetween = revisionRepository.findAllByDateBetween(dateBefore, dateLate);
+        foundByDateBetween = revisionRepository.findAllByRevisionDateBetween(dateBefore, dateLate);
         Assert.assertEquals(0, foundByDateBetween.size());
     }
 
@@ -199,8 +199,8 @@ public class RevisionDataLayerTest {
         var revision = new Revision();
         revision.setId(null);
         revision.setMachine(machine);
-        revision.setDate(LocalDate.of(2015, 6, 26));
-        revision.setTime(Time.valueOf(LocalTime.of(13, 52, 21)));
+        revision.setRevisionDate(LocalDate.of(2015, 6, 26));
+        revision.setRevisionTime(Time.valueOf(LocalTime.of(13, 52, 21)));
         revision.setNote("Some generic test about revision details");
         return revision;
     }

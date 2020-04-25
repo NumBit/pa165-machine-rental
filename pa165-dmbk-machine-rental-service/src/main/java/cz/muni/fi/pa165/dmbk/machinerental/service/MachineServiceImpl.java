@@ -22,8 +22,8 @@ public class MachineServiceImpl implements MachineService {
     private MachineRepository machineRepository;
 
     @Override
-    public void persistMachine(Machine machine) {
-        exceptionCatcher(() -> machineRepository.save(machine));
+    public Long persistMachine(Machine machine) {
+        return exceptionCatcher(() -> machineRepository.save(machine)).getId();
     }
 
     @Override

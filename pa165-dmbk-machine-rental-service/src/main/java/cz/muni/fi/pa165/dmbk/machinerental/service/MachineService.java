@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public interface MachineService {
-    void persistMachine(Machine machine);
+    Long persistMachine(Machine machine);
     Optional<Machine> findById(Long id);
     List<Machine> findByName(String name);
     List<Machine> findByNameLike(String name);
