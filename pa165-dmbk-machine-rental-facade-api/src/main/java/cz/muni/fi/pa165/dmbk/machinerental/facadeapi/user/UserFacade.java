@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 @Component
 public interface UserFacade {
-    void persistUser(UserDto user);
+    Long persistUser(UserDto user);
     Optional<UserDto> findByLogin(String login);
     Optional<Boolean> isAdmin(UserDto user);
     List<CustomerDto> findCustomersByLegalForm(LegalForm legalForm);

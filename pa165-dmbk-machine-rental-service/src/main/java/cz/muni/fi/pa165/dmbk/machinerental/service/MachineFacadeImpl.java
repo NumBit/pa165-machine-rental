@@ -26,8 +26,8 @@ public class MachineFacadeImpl implements MachineFacade {
     private MachineService machineService;
 
     @Override
-    public void persistMachine(MachineDto machine) {
-        machineService.persistMachine(beanMappingService.mapTo(machine, Machine.class));
+    public Long persistMachine(MachineDto machine) {
+        return machineService.persistMachine(beanMappingService.mapTo(machine, Machine.class));
     }
 
     @Override

@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @Service
 public interface UserService {
-    void persistUser(User user);
+    Long persistUser(User user);
     Optional<User> findById(Long id);
     Optional<User> findByLogin(String login);
     Optional<Boolean> isAdmin(User user);

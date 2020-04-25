@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 
 public interface MachineFacade {
-    void persistMachine(MachineDto machine);
+    Long persistMachine(MachineDto machine);
     List<MachineDto> findByName(String name);
     List<MachineDto> findByNameLike(String name);
     List<MachineDto> findByManufacturer(String manufacturer);
