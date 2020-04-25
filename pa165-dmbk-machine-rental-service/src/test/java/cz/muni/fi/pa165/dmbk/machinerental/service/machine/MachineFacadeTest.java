@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingServiceImpl;
 import cz.muni.fi.pa165.dmbk.machinerental.service.MachineFacadeImpl;
 import cz.muni.fi.pa165.dmbk.machinerental.service.MachineService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyObject;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
@@ -45,6 +48,19 @@ public class MachineFacadeTest {
         @Bean public MachineFacade machineFacade() {
             return new MachineFacadeImpl();
         }
+    }
+
+    @Before
+    public void setUp() {
+        // because of java type erase List<Machine> cannot be provided to any() method.
+        when(dozer.map(any(Object.class), eq(MachineDto.class)))
+                .thenReturn(MachineDto.builder()
+                        .withId(2L)
+                        .withName("machine")
+                        .withDescription("description")
+                        .withManufacturer("manufacturer")
+                        .withPrice(new BigDecimal(0))
+                        .build());
     }
 
     @Test
