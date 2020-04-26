@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.CustomerDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class RentalCreateDto {
     private LocalDate returnDate;
     @NonNull
     private CustomerDto customer;
-    // @NonNull
-    // private MachineDto machine;
+    @NonNull
+    private MachineDto machine;
     private String description;
 }
