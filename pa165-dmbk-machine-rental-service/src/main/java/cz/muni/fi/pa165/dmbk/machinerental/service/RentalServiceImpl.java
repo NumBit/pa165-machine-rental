@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 /**
  * @author Peter Baltazarovič
@@ -21,13 +22,12 @@ public class RentalServiceImpl implements RentalService{
 
     @Override
     public Long createRental(Rental rental) {
-        var savedRental = rentalRepository.saveAndFlush(rental);
-        return rental.getId();
+        return exceptionCatcher(() -> rentalRepository.saveAndFlush(rental)).getId();
     }
 
     @Override
     public void updateRental(Rental rental) {
-        rentalRepository.save(rental);
+        exceptionCatcher(() -> rentalRepository.save(rental));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class RentalServiceImpl implements RentalService{
         if (rental.isPresent()){
             var obtainedRental = rental.get();
             obtainedRental.setRentalDate(rentalDate);
-            rentalRepository.saveAndFlush(obtainedRental);
+            exceptionCatcher(() -> rentalRepository.saveAndFlush(obtainedRental));
         }
     }
 
@@ -106,7 +106,7 @@ public class RentalServiceImpl implements RentalService{
         if (rental.isPresent()){
             var obtainedRental = rental.get();
             obtainedRental.setReturnDate(returnDate);
-            rentalRepository.saveAndFlush(obtainedRental);
+            exceptionCatcher(() -> rentalRepository.saveAndFlush(obtainedRental));
         }
     }
 
@@ -118,6 +118,13 @@ public class RentalServiceImpl implements RentalService{
              return Optional.of(
                      rentalRepository.findAllByRentalDateBetweenAndMachineId(rentalDate, returnDate, machineId).isEmpty() &&
                              rentalRepository.findAllByReturnDateBetweenAndMachineId(rentalDate,returnDate, machineId).isEmpty());
+        }
+    }
+
+    private static <T> T exceptionCatcher(Callable<T> thrower) {
+        try { return thrower.call(); }
+        catch (Exception exception) {
+            throw new CustomDataAccessException(exception.getMessage(), exception);
         }
     }
 }
