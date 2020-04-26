@@ -56,7 +56,7 @@ public class RevisionServiceImpl implements RevisionService {
 
     @Override
     public List<Revision> findAllByDateBefore(LocalDate revisionDate) {
-        return revisionRepository.findAllByRevisionDateAfter(revisionDate);
+        return revisionRepository.findAllByRevisionDateBefore(revisionDate);
     }
 
     @Override

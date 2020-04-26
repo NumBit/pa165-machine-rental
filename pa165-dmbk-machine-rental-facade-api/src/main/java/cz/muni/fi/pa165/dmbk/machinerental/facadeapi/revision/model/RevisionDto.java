@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dmbk.machinerental.facadeapi.revision.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class RevisionDto {
     private Long id;
     private LocalDate revisionDate;
     private Time revisionTime;
-    //private MachineDto machine;
+    private MachineDto machine;
     private String note;
 
 }
