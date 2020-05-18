@@ -37,15 +37,29 @@
             <artifactId>pa165-dmbk-machine-rental-facade-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>cz.muni.fi</groupId>
+            <artifactId>pa165-dmbk-machine-rental-security</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency> <!-- web initializer -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
         <dependency> <!-- in memory database shouldnt be used for production -->
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.3.9</version>
         </dependency>
     </dependencies>
 
