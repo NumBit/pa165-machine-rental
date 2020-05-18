@@ -20,43 +20,43 @@ public class MachineRestControlller {
     @Autowired
     private MachineFacade machineFacade;
 
-    @PostMapping("/machine/")
+    @PostMapping("${spring.rest-api.machinePath}/")
     public ResponseEntity<Long> createMachine(@Valid @RequestBody MachineDto machineDto) {
         return ResponseEntity.ok(machineFacade.persistMachine(machineDto));
     }
 
-    @GetMapping("/machine/{id}")
+    @GetMapping("${spring.rest-api.machinePath}/{id}")
     public ResponseEntity<MachineDto> findById(@PathVariable Long id) {
         return ResponseEntity.of(machineFacade.findById(id));
     }
 
-    @PostMapping("/machine/")
+    @PostMapping("${spring.rest-api.machinePath}/update/")
     public ResponseEntity<Long> updateMachine(@Valid @RequestBody MachineDto machineDto) {
         return ResponseEntity.ok(machineFacade.persistMachine(machineDto));
     }
 
-    @DeleteMapping("/machine/{id}")
+    @DeleteMapping("${spring.rest-api.machinePath}/{id}")
     public ResponseEntity<?> deleteMachineById(@PathVariable Long id) {
         machineFacade.deleteMachineById(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/machine/name/{name}")
+    @GetMapping("${spring.rest-api.machinePath}/name/{name}")
     public ResponseEntity<List<MachineDto>> findByName(@PathVariable String name) {
         return ResponseEntity.ok(machineFacade.findByName(name));
     }
 
-    @GetMapping("/machine/name/{name}")
+    @GetMapping("${spring.rest-api.machinePath}/namelike/{name}")
     public ResponseEntity<List<MachineDto>> findByNameLike(@PathVariable String name) {
         return ResponseEntity.ok(machineFacade.findByNameLike(name));
     }
 
-    @GetMapping("/machine/manufacturer/{manufacturer}")
+    @GetMapping("${spring.rest-api.machinePath}/manufacturer/{manufacturer}")
     public ResponseEntity<List<MachineDto>> findByManufacturer(@PathVariable String manufacturer) {
         return ResponseEntity.ok(machineFacade.findByManufacturer(manufacturer));
     }
 
-    @GetMapping("/machine/manufacturer/{manufacturer}")
+    @GetMapping("${spring.rest-api.machinePath}/manufacturerlike/{manufacturer}")
     public ResponseEntity<List<MachineDto>> findByManufacturerLike(@PathVariable String manufacturer) {
         return ResponseEntity.ok(machineFacade.findByManufacturerLike(manufacturer));
     }
