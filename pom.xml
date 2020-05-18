@@ -31,5 +31,6 @@
         <module>pa156-dmbk-machine-rental-launcher</module>
         <module>pa165-dmbk-machine-rental-service</module>
         <module>pa165-dmbk-machine-rental-facade-api</module>
+        <module>pa165-dmbk-machine-rental-security</module>
     </modules>
 </project>

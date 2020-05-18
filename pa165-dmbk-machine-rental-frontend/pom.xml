@@ -16,4 +16,42 @@
     <!-- version is inherited -->
     <packaging>jar</packaging>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/webapp/</directory>
+                <excludes>
+                    <exclude>node_modules/**</exclude>
+                    <exclude>public/**</exclude>
+                    <exclude>src/**</exclude>
+                    <exclude>package-lock.json/**</exclude>
+                    <exclude>yarn-lock.json/**</exclude>
+                    <exclude>README.md/**</exclude>
+                    <exclude>tsconfig.json/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes/build</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/webapp/build</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
