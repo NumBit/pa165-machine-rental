@@ -38,6 +38,11 @@ public class MachineFacadeImpl implements MachineFacade {
     }
 
     @Override
+    public List<MachineDto> findAll() {
+        return beanMappingService.mapTo(machineService.findAll(), MachineDto.class);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<MachineDto> findByName(String name) {
         return beanMappingService.mapTo(machineService.findByName(name), MachineDto.class);
