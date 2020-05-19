@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Machine REST controller
+ *
+ * @author Márius Molčány - UČO: 456350 - Github: overlordsvk
+ */
+
 @Slf4j
 @RestController
 @PropertySource(value = "classpath:application.properties")
@@ -39,6 +45,11 @@ public class MachineRestControlller {
     public ResponseEntity<?> deleteMachineById(@PathVariable Long id) {
         machineFacade.deleteMachineById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("${spring.rest-api.machinePath}/")
+    public ResponseEntity<List<MachineDto>> findAll() {
+        return ResponseEntity.ok(machineFacade.findAll());
     }
 
     @GetMapping("${spring.rest-api.machinePath}/name/{name}")

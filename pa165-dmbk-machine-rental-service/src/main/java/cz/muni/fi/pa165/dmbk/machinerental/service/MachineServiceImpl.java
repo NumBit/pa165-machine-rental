@@ -27,6 +27,11 @@ public class MachineServiceImpl implements MachineService {
     }
 
     @Override
+    public List<Machine> findAll() {
+        return machineRepository.findAll();
+    }
+
+    @Override
     public Optional<Machine> findById(Long id) {
         return machineRepository.findById(id);
     }
