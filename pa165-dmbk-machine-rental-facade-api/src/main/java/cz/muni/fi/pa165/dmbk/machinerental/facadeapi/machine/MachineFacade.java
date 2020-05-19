@@ -16,6 +16,8 @@ public interface MachineFacade {
 
     Optional<MachineDto> findById(Long id);
 
+    List<MachineDto> findAll();
+
     List<MachineDto> findByName(String name);
     List<MachineDto> findByNameLike(String name);
     List<MachineDto> findByManufacturer(String manufacturer);
