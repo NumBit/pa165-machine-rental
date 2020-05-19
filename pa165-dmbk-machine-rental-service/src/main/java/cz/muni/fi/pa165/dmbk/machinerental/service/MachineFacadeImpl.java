@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of machine facade interface
@@ -28,6 +29,12 @@ public class MachineFacadeImpl implements MachineFacade {
     @Override
     public Long persistMachine(MachineDto machine) {
         return machineService.persistMachine(beanMappingService.mapTo(machine, Machine.class));
+    }
+
+    @Override
+    public Optional<MachineDto> findById(Long id) {
+        var machine = machineService.findById(id);
+        return machine.map(value -> beanMappingService.mapTo(value, MachineDto.class));
     }
 
     @Override
