@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./views/Login";
 import PrivateRoute from "./components/PrivateRoute";
-import HomePage from "./views/HomePage";
 import Machines from "./views/Machines";
 import Rentals from "./views/Rentals";
 import Profile from "./views/Profile";
@@ -24,11 +23,10 @@ const App: React.FC = () => {
           <SideNavigation />
           <main>
             <Switch>
-              <Route exact path="/" component={HomePage} />
+              <Route exact path="/" component={Login} />
               <Route path="/machines" component={Machines} />
               <Route path="/rentals" component={Rentals} />
               <Route path="/profile" component={Profile} />
-              <Route path="/login" component={Login} />
               <PrivateRoute path="/revisions" component={Revisions} />
               <PrivateRoute path="/customers" component={Customers} />
               <Route component={NotFound} />

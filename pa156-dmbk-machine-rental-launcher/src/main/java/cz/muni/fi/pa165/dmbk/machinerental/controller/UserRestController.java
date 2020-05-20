@@ -64,9 +64,10 @@ public class UserRestController {
     }
 
     @PostMapping("${spring.rest-api.userPath}/login")
-    public ResponseEntity<?> login(@RequestBody Credentials credentials) {
-        return securityService.authenticate(credentials.getUsername(), credentials.getPassword()) ?
-                ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<UserDto> login(@RequestBody Credentials credentials) {
+        return securityService.authenticate(credentials.getUsername(), credentials.getPassword())
+                ? ResponseEntity.of(securityService.findLoggedInUser())
+                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @PostMapping("${spring.rest-api.userPath}/customer")
