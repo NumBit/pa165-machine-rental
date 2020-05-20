@@ -1,5 +1,5 @@
 import React, {Component, useState} from "react";
-import RentalDataSercvice from "../RentalDataSercvice";
+import RentalDataSercvice from "./RentalDataService";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -97,10 +97,10 @@ class NewRental extends Component{
                     <TextField
                         id="standard-select-currency"
                         select
-                        label="Select"
+                        label="Machine"
                         value={this.state.machine}
                         onChange={this.handleMachineChange}
-                        helperText="Please select your currency"
+                        helperText="Please select machine to rent"
                     >
                         {this.state.machines.map((option) => (
                             <MenuItem key={option} value={option}>
@@ -108,7 +108,6 @@ class NewRental extends Component{
                             </MenuItem>
                         ))}
                     </TextField>
-
 
                 </div>
                 <Button variant="contained" color="primary" onClick={() => this.createRental(this.state.description, this.state.rentalDate, this.state.returnDate, this.state.machine, this.state.user)}>
