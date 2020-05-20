@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { GlobalContext } from "../context/GlobalState";
+import { Redirect } from "react-router";
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -31,15 +33,22 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+export interface State {
+  redirectToReferrer: boolean;
+}
+
+
 const Login = () => {
   const classes = useStyles();
+  const { switchRole } = useContext(GlobalContext)
+  const [redirect, setRedirect] = useState<State>({ redirectToReferrer: false });
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [helperText, setHelperText] = useState('');
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (username.trim() && password.trim()) {
       setIsButtonDisabled(false);
     } else {
@@ -48,13 +57,21 @@ const Login = () => {
   }, [username, password]);
 
   const handleLogin = () => {
-    if (username === 'abc@email.com' && password === 'password') {
-      setError(false);
-      setHelperText('Login Successfully');
-    } else {
+    const credentials = { username: username, password: password };
+
+    fetch('http://localhost:8080/pa165/rest/user/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', },
+          body: JSON.stringify(credentials), })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response)
+        switchRole(response);
+        setRedirect({ redirectToReferrer: true }) })
+    .catch((error) => {
       setError(true);
-      setHelperText('Incorrect username or password')
-    }
+      setHelperText('Incorrect username or password');
+    });
   };
 
   const handleKeyPress = (e:any) => {
@@ -63,6 +80,8 @@ const Login = () => {
     }
   };
 
+  let { redirectToReferrer } = redirect
+  if (redirectToReferrer) return <Redirect to='/profile' />;
   return (
     <React.Fragment>
       <form className={classes.container} noValidate autoComplete="off">

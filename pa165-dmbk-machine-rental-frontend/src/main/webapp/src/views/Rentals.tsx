@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "../context/GlobalState";
-import RentalsList from "../components/RentalsList";
-import MachineAvaibility from "../components/MachineAvaibility";
-import AdminRentalList from "../components/AdminRentalList";
+import { GlobalContext, isAdmin } from "../context/GlobalState";
 
 const Rentals = () => {
   const { user } = useContext(GlobalContext);
@@ -12,8 +9,7 @@ const Rentals = () => {
   return (
     <div>
       <h1>Rentals</h1>
-      {user.isAdmin ? <AdminRentalList/> :<RentalsList/> }
-      <MachineAvaibility/>
+      {isAdmin(user) ? adminsView : customersView}
     </div>
   );
 };
