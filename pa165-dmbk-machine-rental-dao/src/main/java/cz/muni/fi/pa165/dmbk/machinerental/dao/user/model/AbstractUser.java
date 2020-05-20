@@ -31,7 +31,7 @@ import javax.persistence.Table;
 public abstract class AbstractUser implements User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @Column(nullable = false, unique = true)

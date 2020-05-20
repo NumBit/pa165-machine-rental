@@ -16,6 +16,9 @@ import java.util.Optional;
 public interface MachineService {
     Long persistMachine(Machine machine);
     Optional<Machine> findById(Long id);
+
+    List<Machine> findAll();
+
     List<Machine> findByName(String name);
     List<Machine> findByNameLike(String name);
     List<Machine> findByManufacturer(String manufacturer);

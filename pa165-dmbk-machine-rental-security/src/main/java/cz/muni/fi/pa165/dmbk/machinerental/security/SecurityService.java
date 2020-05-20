@@ -9,7 +9,7 @@ import java.util.Optional;
  * Interface for custom implemented
  * security service.
  *
- * @author Norbert Dopjera
+ * @author Norbert Dopjera 456355@mail.muni.cz
  */
 @Service
 public interface SecurityService {

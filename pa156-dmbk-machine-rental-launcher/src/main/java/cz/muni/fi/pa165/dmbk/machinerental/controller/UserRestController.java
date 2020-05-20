@@ -31,6 +31,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * Rest controller representing REST API endpoint
+ * for user (customer | admin) operations using
+ * mainly JSON data format.
+ *
+ * @author Norbert Dopjera 456355@mail.muni.cz
+ */
 @Slf4j
 @RestController
 @PropertySource(value = "classpath:application.properties")
@@ -39,7 +46,6 @@ public class UserRestController {
 
     @Autowired private UserFacade userFacade;
     @Autowired private SecurityService securityService;
-    @Autowired private UserDetailsService userDetailsService;
     @Autowired private BCryptPasswordEncoder passwordEncoder;
 
     @Getter
