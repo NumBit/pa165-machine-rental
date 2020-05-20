@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @Table(name = "MACHINE")
 public class Machine {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @Column(nullable = false)
