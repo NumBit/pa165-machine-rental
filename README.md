@@ -9,27 +9,27 @@ java -jar pa156-dmbk-machine-rental-launcher/target/mr-launcher.jar
 
 
 ### REST api admin:
-http://localhost:8080/pa165/swagger-ui.html
+http://localhost:8080/pa165/swagger-ui.html  
 
 ### REST calls on:
-http://localhost:8080/pa165/rest
+http://localhost:8080/pa165/rest  
 
 ### DB:
-http://localhost:8080/pa165/h2-console
-login : sa
-password:password
+http://localhost:8080/pa165/h2-console  
+login: sa  
+password: password  
 
 
 ### Page:
-http://localhost:8080/pa165
+http://localhost:8080/pa165  
 
-### Customer:
-login: testuser
-password: testuser
+### Customer:  
+login: testuser  
+password: testuser  
 
-### Admin:
-login: admin1
-password: admin1
+### Admin:   
+login: admin1  
+password: admin1  
 
 ## pa165-machine-rental
 see our Github wiki page for more information:
