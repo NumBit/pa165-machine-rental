@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.AdminDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.CustomerDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.UserDto;
@@ -24,6 +25,7 @@ public interface UserFacade {
     Long persistUser(UserDto user);
     Optional<UserDto> findByLogin(String login);
     Optional<Boolean> isAdmin(UserDto user);
+    List<CustomerDto> findAllCustomers();
     List<CustomerDto> findCustomersByLegalForm(LegalForm legalForm);
     Optional<CustomerDto> findCustomerByEmail(String email);
     List<AdminDto> findAdminsBySureName(String sureName);

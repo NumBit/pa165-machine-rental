@@ -35,4 +35,7 @@ public interface UserRepository extends JpaRepository<AbstractUser, Long> {
 
     @Query("SELECT u FROM Admin u WHERE u.sureName = ?1")
     List<Admin> findAdminsBySureName(String sureName);
+
+    @Query("SELECT u FROM Customer u")
+    List<Customer> findAllCustomers();
 }

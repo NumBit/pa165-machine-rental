@@ -80,7 +80,7 @@ public class RentalRestController {
     }
 
     @DeleteMapping("${spring.rest-api.rentalPath}/{id}")
-    public ResponseEntity<?> deleteById(Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         rentalFacade.deleteById(id);
         return ResponseEntity.ok().build();
     }
