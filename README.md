@@ -24,7 +24,7 @@ password:password
 http://localhost:8080/pa165
 
 ### Customer:
-login: testuset
+login: testuser
 password: testuser
 
 ### Admin:
