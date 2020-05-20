@@ -1,11 +1,14 @@
 package cz.muni.fi.pa165.dmbk.machinerental.service.user;
 
+import com.github.dozermapper.core.Mapper;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.UserFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.AdminDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.CustomerDto;
+import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
+import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingServiceImpl;
 import cz.muni.fi.pa165.dmbk.machinerental.service.UserFacadeImpl;
 import cz.muni.fi.pa165.dmbk.machinerental.service.UserService;
 import org.junit.Assert;
@@ -45,9 +48,12 @@ public class UserFacadeTest {
 
     @TestConfiguration
     static class UserFacadeTestContextConfiguration {
-        @Bean
-        public UserFacade userFacade() {
+        @Bean public UserFacade userFacade() {
             return new UserFacadeImpl();
+        }
+        @MockBean public Mapper mapper;
+        @Bean public BeanMappingService beanMappingService() {
+            return new BeanMappingServiceImpl();
         }
     }
 
