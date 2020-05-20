@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.sql.Time;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
  * */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonDeserialize
 public class RevisionCreateDto {
     @NonNull
