@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import TablePagination from "@material-ui/core/TablePagination";
-import {KeyboardDatePicker} from "@material-ui/pickers";
 
 
 class RentalsList extends Component {

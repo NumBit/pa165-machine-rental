@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import RentalsList from "../components/RentalsList";
-import NewRental from "../components/NewRental";
 import MachineAvaibility from "../components/MachineAvaibility";
 import AdminRentalList from "../components/AdminRentalList";
 
