@@ -18,24 +18,30 @@ const useStyles = makeStyles(() => ({
 }));
 
 const api = axios.create({
-  baseURL: `http://localhost:8080/rest/revisions/`,
+  baseURL: `http://localhost:8080/pa165/rest/revisions/`,
 });
 
 const Revisions = () => {
   const classes = useStyles();
   const [revisions, setRevisions] = useState([]);
   const [initialized, setInitialized] = useState(false);
+  const [machines, setMachines] = useState([]);
 
   useEffect(() => {
     setInitialized(false);
-    api
-      .get(`all`)
-      .then((res) => {
-        console.log("UseEffect Revisions: ", res.data);
-        setRevisions(res.data);
-        setInitialized(true);
-      })
-      .catch(() => {
+    axios
+      .all([
+        api.get(`all`),
+        axios.get(`http://localhost:8080/pa165/rest/machine/`),
+      ])
+      .then(
+        axios.spread((...responses) => {
+          setRevisions(responses[0].data);
+          setMachines(responses[1].data);
+          setInitialized(true);
+        })
+      )
+      .catch((errors) => {
         setInitialized(true);
       });
   }, []);
@@ -50,7 +56,7 @@ const Revisions = () => {
           <CreateRevisionForm
             api={api}
             setData={setRevisions}
-            revisions={revisions}
+            machines={machines}
           />
         </Grid>
         <div
@@ -68,6 +74,7 @@ const Revisions = () => {
           <FilterRevisionForm
             api={api}
             revisions={revisions}
+            machines={machines}
             setRevisions={setRevisions}
           />
           <RevisionsTable

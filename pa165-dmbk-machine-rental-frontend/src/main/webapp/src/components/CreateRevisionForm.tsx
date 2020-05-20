@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -40,19 +39,12 @@ const formatTime = (time: any) => {
   return [hour, minute, second].join(":");
 };
 
-const CreateRevisionForm = ({ api, setData, revisions }: any) => {
+const CreateRevisionForm = ({ api, setData, machines }: any) => {
   const [selectedDate, setSelectedDate] = useState("2020-05-19");
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [apiTime, setApiTime] = useState(formatTime(selectedTime));
   const [selectedMachine, setSelectedMachine] = useState(1);
   const [note, setNote] = useState("");
-  const [machines, setMachines] = useState([]);
-
-  useEffect(() => {
-    axios.get(`http://localhost:8080/rest/machine`).then(
-      (res: any) => setMachines(res)
-    );
-  }, [])
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -64,9 +56,8 @@ const CreateRevisionForm = ({ api, setData, revisions }: any) => {
       },
       note: note,
     };
-    console.log("object to create: ", data);
     api.post("create", data).then((res: any) => {
-      api.get(`all`).then((res: any) => setData(res.data))
+      api.get(`all`).then((res: any) => setData(res.data));
     });
   };
 
@@ -121,7 +112,11 @@ const CreateRevisionForm = ({ api, setData, revisions }: any) => {
                 style={{ textAlign: "left" }}
                 fullWidth
               >
-                {machines.map((machine: any) => <MenuItem value={machine.id} key={machine.id}>{machine.name}</MenuItem>)}
+                {machines.map((machine: any) => (
+                  <MenuItem value={machine.id} key={machine.id}>
+                    {machine.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -153,7 +148,7 @@ const CreateRevisionForm = ({ api, setData, revisions }: any) => {
 CreateRevisionForm.propTypes = {
   api: PropTypes.any,
   setData: PropTypes.func,
-  revisions: PropTypes.array,
+  machines: PropTypes.array,
 };
 
 export default CreateRevisionForm;

@@ -9,7 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Modal from '@material-ui/core/Modal';
+import Modal from "@material-ui/core/Modal";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     top: `50%`,
     left: `50%`,
     transform: `translate(-50%, -50%)`,
-  }
+  },
 });
 
 const RevisionsTable = ({ headers, data, api, setData }: any) => {
@@ -33,9 +33,7 @@ const RevisionsTable = ({ headers, data, api, setData }: any) => {
   const [modalId, setModalId] = useState(0);
   const [note, setNote] = useState("");
 
-  useEffect(() => {
-    console.log("table effect");
-  }, [data])
+  useEffect(() => {}, [data]);
 
   const handleDelete = (id: number) => {
     api.delete(`${id}`).then((res: any) => {
@@ -45,20 +43,24 @@ const RevisionsTable = ({ headers, data, api, setData }: any) => {
 
   const handleNoteChanged = (event: any) => {
     setNote(event.target.value);
-  }
+  };
 
   const handleAddNote = (event: any, id: number) => {
     event.preventDefault();
-    console.log({ note: note });
-    api.post(`setRevisionNote/${id}`, note).then((res: any) => {
-      api
-        .get(`all`)
-        .then((res: any) => {
-          console.log("note Revisions: ", res.data);
-          setData(res.data);
-        })
-        .catch();
-    });
+    api
+      .post(`setRevisionNote/${id}`, `${note}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res: any) => {
+        api
+          .get(`all`)
+          .then((res: any) => {
+            setData(res.data);
+          })
+          .catch();
+      });
     setOpenedModal(false);
   };
 
@@ -83,7 +85,13 @@ const RevisionsTable = ({ headers, data, api, setData }: any) => {
               <TableCell align="left">{row.revisionTime}</TableCell>
               <TableCell align="left">{row.note}</TableCell>
               <TableCell align="right">
-                <Button variant="contained" onClick={() => { setOpenedModal(true); setModalId(row.id)}}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpenedModal(true);
+                    setModalId(row.id);
+                  }}
+                >
                   Change note
                 </Button>
                 <Button
@@ -104,10 +112,13 @@ const RevisionsTable = ({ headers, data, api, setData }: any) => {
         aria-describedby="simple-modal-description"
       >
         <div className={classes.modal}>
-          <form onSubmit={(event) => handleAddNote(event, modalId)} style={{
-            display: "flex",
-            flexDirection: "column"
-          }}>
+          <form
+            onSubmit={(event) => handleAddNote(event, modalId)}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Typography variant="h6">Set new note</Typography>
             <TextField
               name="note"
@@ -115,7 +126,9 @@ const RevisionsTable = ({ headers, data, api, setData }: any) => {
               type="text"
               onChange={handleNoteChanged}
             />
-            <Button variant="contained" type="submit">Change</Button>
+            <Button variant="contained" type="submit">
+              Change
+            </Button>
           </form>
         </div>
       </Modal>
