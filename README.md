@@ -1,4 +1,4 @@
-For starting project you need run npm run buil in pa165-dmbk-machine-rental\pa165-dmbk-machine-rental-frontend\src\main\webapp
+## For starting project you need run npm run buil in pa165-dmbk-machine-rental\pa165-dmbk-machine-rental-frontend\src\main\webapp
 
 ### start from intellij idea:
 run the main class ApplicationLauncher
