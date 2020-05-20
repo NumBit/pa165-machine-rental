@@ -19,7 +19,7 @@ const App: React.FC = () => {
   return (
     <GlobalProvider>
       {signedIn ? (
-        <Router basename="/pa165/">
+        <Router basename="pa165">
           <ApplicationBar />
           <SideNavigation />
           <main>
