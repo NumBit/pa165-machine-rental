@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
-import { GlobalContext } from "../context/GlobalState";
+import React, { useContext } from 'react';
+import { GlobalContext, isAdmin } from "../context/GlobalState";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
+import Button from "@material-ui/core/Button";
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -26,11 +28,22 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
     },
   },
+  button: {
+  },
 }));
+
+export interface State {
+  redirectToReferrer: boolean;
+}
 
 const SideNavigation = () => {
   const classes = useStyles();
-  const { user } = useContext(GlobalContext);
+  const { user, switchRole } = useContext(GlobalContext);
+
+  function handleLogout() {
+      fetch("http://localhost:8080/pa165/rest/user/logout")
+      .then(response => switchRole({ objectName: "Unauthenticated" }))
+  }
 
   const customerNavigation = (
     <>
@@ -74,22 +87,22 @@ const SideNavigation = () => {
           <ListItemText primary="Machines" />
         </ListItem>
       </RouterNavLink>
+      <RouterNavLink to="/profile" className={clsx(classes.link)}>
+        <ListItem button>
+          <ListItemText primary="Profile" />
+        </ListItem>
+      </RouterNavLink>
     </>
   );
 
   return (
     <div className={classes.drawer}>
-      {user.isAdmin ? adminNavigation : customerNavigation}
+      {isAdmin(user) ? adminNavigation : customerNavigation}
       <Divider />
-      <RouterNavLink
-        to="/"
-        className={clsx(classes.link)}
-        activeClassName="selected"
-      >
         <ListItem button>
-          <ListItemText primary="Logout" />
+          <Button className={classes.button} variant="contained"
+                  component={Link} to='/' onClick={() => handleLogout()}>Logout</Button>
         </ListItem>
-      </RouterNavLink>
     </div>
   );
 };
