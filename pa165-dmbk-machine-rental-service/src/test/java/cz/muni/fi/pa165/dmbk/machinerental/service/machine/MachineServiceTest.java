@@ -71,7 +71,7 @@ public class MachineServiceTest {
 
     @Test
     public void findByMachineNameLike() {
-        when(machineRepository.findByNameLike(any(String.class)))
+        when(machineRepository.findByNameContaining(any(String.class)))
                 .thenReturn(List.of(getMachineDaoWithId()));
         var foundMachines = machineService.findByNameLike("machineName");
         Assert.assertEquals(1, foundMachines.size());
@@ -89,7 +89,7 @@ public class MachineServiceTest {
 
     @Test
     public void findByManufacturerLike() {
-        when(machineRepository.findByManufacturerLike(any(String.class)))
+        when(machineRepository.findByManufacturerContaining(any(String.class)))
                 .thenReturn(List.of(getMachineDaoWithId()));
         var foundMachines = machineService.findByManufacturerLike("machineManufacturer");
         Assert.assertEquals(1, foundMachines.size());
