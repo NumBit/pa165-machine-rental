@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../context/GlobalState";
+import {GlobalContext, isAdmin} from "../context/GlobalState";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {
     Button, Divider,
@@ -12,11 +12,14 @@ import {
     TablePagination,
     TableRow
 } from "@material-ui/core";
-import {Link} from "react-router-dom";
-import CreateRevisionForm from "../components/CreateRevisionForm";
-import Grid from "@material-ui/core/Grid";
 import CreateMachineForm from "../components/CreateMachineForm";
 import TextField from "@material-ui/core/TextField";
+
+/**
+ * Machine View
+ *
+ * @author Márius Molčány - UČO: 456350 - Github: overlordsvk
+ */
 
 interface ServiceInit {
     status: 'init';
@@ -101,9 +104,6 @@ export type MachineService<T> =
 
 export default function Machines() {
     const {user} = useContext(GlobalContext);
-    const customersView = <p>customers view</p>;
-    const adminsView = <p>admins view</p>;
-
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -124,7 +124,7 @@ export default function Machines() {
 
     const handleSearchNameChange = (event: any) => {
         setNameSearch(event.target.value);
-        if (nameSearch != ""){
+        if (nameSearch !== ""){
             fetch('/pa165/rest/machine/namelike/' + nameSearch)
                 .then(res => res.json())
                 .then(res => setResult({status: 'loaded', payload: res}))
@@ -175,9 +175,9 @@ export default function Machines() {
                                     {table.label}
                                 </TableCell>
                             ))}
-                            <TableCell align="right" style={{minWidth: 50}}>
+                            {isAdmin(user) ? <TableCell align="right" style={{minWidth: 50}}>
                                 Actions
-                            </TableCell>
+                            </TableCell> : ""}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -195,7 +195,7 @@ export default function Machines() {
                                         );
                                     })}
 
-                                    {user.isAdmin ? <TableCell align="right">
+                                    {isAdmin(user) ? <TableCell align="right">
                                         <Button onClick={() => handleDelete(row.id)}>Delete</Button>
                                     </TableCell> : ""}
                                 </TableRow>
@@ -224,9 +224,6 @@ export default function Machines() {
             {result.status === 'error' && (
                 <div>Error, the backend not connected.</div>
             )}
-
-            <Link to='/profile'> some stuff </Link>
-            {user.isAdmin ? adminsView : customersView}
         </Paper>
     );
 }
