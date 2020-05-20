@@ -5,9 +5,10 @@ import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import {Paper, TableRow, TableCell, TableBody} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 class RentalsList extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             rentals: []
         }
