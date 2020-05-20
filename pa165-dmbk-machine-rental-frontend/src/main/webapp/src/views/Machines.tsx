@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
             }
         },
         container: {
-            maxHeight: 440,
+            maxHeight: 1080,
         },
     }),
 );
