@@ -1,9 +1,9 @@
 For starting project you need run npm run buil in pa165-dmbk-machine-rental\pa165-dmbk-machine-rental-frontend\src\main\webapp
 
-start from intellij idea:
+### start from intellij idea:
 run the main class ApplicationLauncher
 
-start from command line:
+### start from command line:
 mvn clean install  
 java -jar pa156-dmbk-machine-rental-launcher/target/mr-launcher.jar
 
