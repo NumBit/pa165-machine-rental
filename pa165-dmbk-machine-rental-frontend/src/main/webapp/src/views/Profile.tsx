@@ -78,11 +78,6 @@ function isAdmin(object: any): object is Admin {
               && 'name' in object && 'sureName' in object;
 }
 
-function isCustomer(object: any): object is Customer {
-  return 'type' in object && 'id' in object && 'login' in object
-              && 'legalform' in object && 'email' in object;
-}
-
 export type UserService<T> =
 | ServiceInit
 | ServiceLoading

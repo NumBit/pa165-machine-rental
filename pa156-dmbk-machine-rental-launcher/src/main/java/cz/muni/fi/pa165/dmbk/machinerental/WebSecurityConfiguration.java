@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.session.InvalidSessionAccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -39,12 +41,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/swagger-ui/**").permitAll()
                 .antMatchers("/v3/api-docs/**").permitAll()
                 .antMatchers("/**").permitAll()
-                .and().exceptionHandling().authenticationEntryPoint(
-                        new LoginUrlAuthenticationEntryPoint("/login"))
-                .and().exceptionHandling().accessDeniedPage("/login")
+                //.and().exceptionHandling().authenticationEntryPoint(
+                //        new LoginUrlAuthenticationEntryPoint("/login"))
+                .and().exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl())
+                //.and().exceptionHandling().accessDeniedPage("/login")
                 .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/logedoff.xhtml")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/rest/user/logout"))
+                //.logoutSuccessUrl("/logedoff.xhtml")
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
