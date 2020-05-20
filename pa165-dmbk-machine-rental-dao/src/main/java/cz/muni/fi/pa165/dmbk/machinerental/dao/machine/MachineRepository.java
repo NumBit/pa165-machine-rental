@@ -16,9 +16,9 @@ import java.util.List;
 public interface MachineRepository extends JpaRepository<Machine, Long> {
     List<Machine> findByName(String name);
 
-    List<Machine> findByNameLike(String name);
+    List<Machine> findByNameContaining(String name);
 
     List<Machine> findByManufacturer(String manufacturer);
 
-    List<Machine> findByManufacturerLike(String manufacturer);
+    List<Machine> findByManufacturerContaining(String manufacturer);
 }
