@@ -151,8 +151,10 @@ export default function Machines() {
 
     return (
         <Paper className={classes.root}>
-            <CreateMachineForm
-            setData={setResult}/>
+            {isAdmin(user) ?
+                <CreateMachineForm
+                setData={setResult}/>
+                : ""}
             <Divider />
             <TextField id="outlined-search" label="Search field" type="search" onChange={handleSearchNameChange} variant="outlined" />
             <Button color="primary"
