@@ -110,6 +110,12 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(false));
     }
 
+    @GetMapping("${spring.rest-api.adminPath}/allCustomers")
+    public ResponseEntity<List<CustomerDto>> findAllCustomers() {
+        var customers = userFacade.findAllCustomers();
+        return ResponseEntity.ok(customers);
+    }
+
     @PostConstruct
     private void init() {
         userFacade.persistUser(CustomerDto.builder()

@@ -24,6 +24,7 @@ public interface UserService {
     Optional<User> findById(Long id);
     Optional<User> findByLogin(String login);
     Optional<Boolean> isAdmin(User user);
+    List<Customer> findAllCustomers();
     List<Customer> findCustomersByLegalForm(LegalForm legalForm);
     Optional<Customer> findCustomerByEmail(String email);
     List<Admin> findAdminsBySureName(String sureName);
