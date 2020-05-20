@@ -20,7 +20,7 @@ import java.util.Optional;
  * threads of server can simultaneously access
  * authentication functionality.
  *
- * @author Norbert Dopjera
+ * @author Norbert Dopjera 456355@mail.muni.cz
  */
 @Slf4j
 @Service

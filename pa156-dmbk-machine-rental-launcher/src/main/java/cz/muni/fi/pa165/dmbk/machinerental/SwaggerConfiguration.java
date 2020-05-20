@@ -46,6 +46,6 @@ public class SwaggerConfiguration {
     }
 
     private final List<Server> getServers() {
-        return Collections.singletonList(new Server().url("http://localhost:8080"));
+        return Collections.singletonList(new Server().url("http://localhost:8080/pa165/"));
     }
 }
