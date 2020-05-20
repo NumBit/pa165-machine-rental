@@ -43,7 +43,7 @@ public class MachineServiceImpl implements MachineService {
 
     @Override
     public List<Machine> findByNameLike(String name) {
-        return machineRepository.findByNameLike(name);
+        return machineRepository.findByNameContaining(name);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MachineServiceImpl implements MachineService {
 
     @Override
     public List<Machine> findByManufacturerLike(String manufacturer) {
-        return machineRepository.findByManufacturerLike(manufacturer);
+        return machineRepository.findByManufacturerContaining(manufacturer);
     }
 
     @Override

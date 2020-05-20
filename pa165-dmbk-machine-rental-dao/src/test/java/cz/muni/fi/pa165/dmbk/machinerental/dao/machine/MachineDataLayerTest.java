@@ -186,13 +186,13 @@ public class MachineDataLayerTest {
         machineRepository.saveAndFlush(machine2);
         machineRepository.saveAndFlush(machine22);
 
-        var optionalResultMachine = machineRepository.findByNameLike("%machine%");
+        var optionalResultMachine = machineRepository.findByNameContaining("machine");
         Assert.assertEquals(3L, optionalResultMachine.size());
 
-        var optionalResultNumber = machineRepository.findByNameLike("%2%");
+        var optionalResultNumber = machineRepository.findByNameContaining("2");
         Assert.assertEquals(2L,optionalResultNumber.size());
 
-        var optionalResultNonExist = machineRepository.findByNameLike("%bib%");
+        var optionalResultNonExist = machineRepository.findByNameContaining("bib");
         Assert.assertEquals(0L, optionalResultNonExist.size());
 
     }
@@ -206,13 +206,13 @@ public class MachineDataLayerTest {
         machineRepository.saveAndFlush(machine2);
         machineRepository.saveAndFlush(machine22);
 
-        var optionalResultManufacturer = machineRepository.findByManufacturerLike("%manufacturer%");
+        var optionalResultManufacturer = machineRepository.findByManufacturerContaining("manufacturer");
         Assert.assertEquals(3L, optionalResultManufacturer.size());
 
-        var optionalResultNumber = machineRepository.findByManufacturerLike("%2%");
+        var optionalResultNumber = machineRepository.findByManufacturerContaining("2");
         Assert.assertEquals(2L,optionalResultNumber.size());
 
-        var optionalResultNonExist = machineRepository.findByManufacturerLike("%bib%");
+        var optionalResultNonExist = machineRepository.findByManufacturerContaining("bib");
         Assert.assertEquals(0L, optionalResultNonExist.size());
     }
 

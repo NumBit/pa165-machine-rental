@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 @Transactional(rollbackFor = CustomDataAccessException.class)
 public class UserFacadeImpl implements UserFacade {
 
+    @Autowired private BeanMappingService beanMappingService;
+
     @Autowired private UserService userService;
 
     @Override
@@ -64,6 +66,12 @@ public class UserFacadeImpl implements UserFacade {
         return userService.findCustomerByEmail(email)
                 .map(UserFacadeImpl::entityToUserDto)
                 .map(userDto -> (CustomerDto) userDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CustomerDto> findAllCustomers() {
+        return beanMappingService.mapTo(userService.findAllCustomers(), CustomerDto.class);
     }
 
     @Override

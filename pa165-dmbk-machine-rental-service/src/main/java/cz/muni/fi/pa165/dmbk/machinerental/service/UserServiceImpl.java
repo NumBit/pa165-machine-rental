@@ -58,6 +58,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAdminsBySureName(sureName);
     }
 
+    public List<Customer> findAllCustomers() {
+        return userRepository.findAllCustomers();
+    }
+
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
