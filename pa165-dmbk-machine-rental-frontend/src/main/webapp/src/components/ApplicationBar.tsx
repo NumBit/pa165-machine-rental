@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from 'react-router-dom';
 import { GlobalContext } from "../context/GlobalState";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,6 +11,10 @@ const useStyles = makeStyles(() => ({
   title: {
     flexGrow: 1,
   },
+  button: {
+    marginRight: 20,
+    backgroundColor: '#40c4ff',
+  }
 }));
 
 const ApplicationBar = () => {
@@ -21,6 +26,7 @@ const ApplicationBar = () => {
         <Typography variant="h6" className={classes.title}>
           DMBK machine rental
         </Typography>
+        <Button className={classes.button} variant="contained" component={Link} to='/login'>Login</Button>
         <Typography variant="body1">
           Signed in as {user.isAdmin ? "Admin" : "Customer"}
         </Typography>
