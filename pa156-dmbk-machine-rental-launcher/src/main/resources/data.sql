@@ -12,12 +12,12 @@ INSERT INTO revision (id, note, revision_date, revision_time, machine_id) VALUES
 (5, 'revision note5', '2020-02-08', '09:09:09', 3 );
 
 INSERT INTO abstract_user (id, login, password_hash) VALUES
-(2, 'user2', 'user2'),
-(3, 'user3', 'user3'),
-(4, 'user4', 'user4'),
-(5, 'admin1', 'admin1'),
-(6, 'admin2', 'admin2'),
-(7, 'user7', 'user7');
+(2, 'user2', '$2a$04$IdVOM5VFXhArzinEQy5ZVekSknmh/j28iJyCR.P0AyU51xmbg87jS'),
+(3, 'user3', '$2a$04$8KdWyJEaB63mB9Jl8vkdfeo1iUFO9dsbpABfUs9Bs83vehFUOBr4G'),
+(4, 'user4', '$2a$04$OgFiL77zzWub0H.BW8WAvOYOtevSb17paAD6mOiB7rlX/4p0Qgs0m'),
+(5, 'admin1', '$2a$04$OIWC5fEu4OdeXPJ/adyF6uOiuTSTnrQMdbdh.rzj2Uiag6Tph7A7W'),
+(6, 'admin2', '$2a$04$hISVF2zNVAyCoi6dr0n6euachVgJY1emMC9vEzZHRjoIRLkDMXDke'),
+(7, 'user7', '$2a$04$QqtebQmNC1LxXAsJji368uDrp2kEQFZqPlHT5EdcVgDK0EG06Ac.G');
 
 INSERT INTO admin (name, sure_name, id) VALUES
 ('John', 'Smith', 5),

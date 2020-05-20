@@ -20,7 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * unauthorized access. Also specifies how logout
  * should be handled.
  *
- * @author Norbert Dopjera
+ * @author Norbert Dopjera 456355@mail.muni.cz
  */
 @Configuration
 @EnableWebSecurity
