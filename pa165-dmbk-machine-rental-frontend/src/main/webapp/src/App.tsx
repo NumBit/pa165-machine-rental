@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, HashRouter} from "react-router-dom";
 import Login from "./views/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Machines from "./views/Machines";
@@ -18,7 +18,7 @@ const App: React.FC = () => {
   return (
     <GlobalProvider>
       {signedIn ? (
-        <Router basename="pa165">
+        <HashRouter basename="pa165">
           <ApplicationBar />
           <SideNavigation />
           <main>
@@ -32,7 +32,7 @@ const App: React.FC = () => {
               <Route component={NotFound} />
             </Switch>
           </main>
-        </Router>
+        </HashRouter>
       ) : (
         <Login />
       )}

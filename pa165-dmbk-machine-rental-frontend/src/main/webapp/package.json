@@ -18,6 +18,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "axios": "^0.19.2",
+    "build": "^0.1.4",
     "date-fns": "^2.14.0",
     "final-form": "^4.19.1",
     "react": "^16.13.1",
