@@ -20,16 +20,20 @@
     "axios": "^0.19.2",
     "date-fns": "^2.14.0",
     "final-form": "^4.19.1",
+    "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-date-range": "^1.0.3",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.4.0",
+    "react-hook-form": "latest",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "typescript": "~3.7.2"
+    "simple-react-validator": "^1.4.6",
+    "typescript": "~3.7.2",
+    "yup": "^0.29.1"
   },
   "scripts": {
     "start": "react-scripts start",

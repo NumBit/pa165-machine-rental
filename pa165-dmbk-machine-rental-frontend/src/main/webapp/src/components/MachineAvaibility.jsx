@@ -16,7 +16,7 @@ class MachineAvaibility extends Component{
             returnDate: "",
             available: false,
             checked: false
-        }
+        };
 
         this.handleRentalChange = this.handleRentalChange.bind(this);
         this.handleReturnChange = this.handleReturnChange.bind(this);

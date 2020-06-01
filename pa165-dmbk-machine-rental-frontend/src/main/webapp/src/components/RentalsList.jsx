@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import TablePagination from "@material-ui/core/TablePagination";
+import Alert from "@material-ui/lab/Alert";
 
 
 class RentalsList extends Component {
@@ -22,7 +23,8 @@ class RentalsList extends Component {
             machine: {},
             description: "",
             page: 0,
-            rowsPerPage: 10
+            rowsPerPage: 10,
+            creatingResponse: 0,
         };
 
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -47,7 +49,7 @@ class RentalsList extends Component {
     }
 
     createRental(description, rentalDate, returnDate, machine, user) {
-        RentalDataService.createRental(description, rentalDate, returnDate, machine, user).then(()=> this.refreshRentals());
+        RentalDataService.createRental(description, rentalDate, returnDate, machine, user).then(response => {this.setState({creatingResponse: response.data});this.refreshRentals()});
     }
 
      handleChangePage(event, newPage){
@@ -134,6 +136,8 @@ class RentalsList extends Component {
                     <Button variant="contained" color="primary" style={{marginBottom: 10}} onClick={() => this.createRental(this.state.description, this.state.rentalDate, this.state.returnDate, this.state.machine, this.state.user)}>
                         Create Rental
                     </Button>
+                    {(this.state.creatingResponse == -1) ? <Alert severity="error">Machine is not available in selected dates</Alert> : null}
+                    {this.state.creatingResponse == -2 ? <Alert severity="error">Machine not found</Alert> : null}
                 </form>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">

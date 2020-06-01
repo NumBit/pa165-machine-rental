@@ -17,7 +17,7 @@ public interface RentalFacade {
     /**
      * Store rental entity into db
      * @param rental entity to create
-     * @return Id of created entity
+     * @return Id of created entity -1 if machine is not available in selected dates -2 if machine does not exists
      */
     Long createRental(RentalCreateDto rental);
 

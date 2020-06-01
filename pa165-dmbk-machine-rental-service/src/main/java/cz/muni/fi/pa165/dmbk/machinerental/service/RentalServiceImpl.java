@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dmbk.machinerental.service;
 
+import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.repository.RentalRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
@@ -21,10 +22,19 @@ public class RentalServiceImpl implements RentalService{
 
     @Autowired
     private RentalRepository rentalRepository;
+    @Autowired
+    private MachineRepository machineRepository;
 
     @Override
     public Long createRental(Rental rental) {
-        return exceptionCatcher(() -> rentalRepository.saveAndFlush(rental)).getId();
+        var availabilityOfMachine = checkAvailabilityForRent(rental.getMachine().getId(), rental.getRentalDate(), rental.getReturnDate());
+        if(availabilityOfMachine.isEmpty()) {
+            return -2L;
+        } else if(!availabilityOfMachine.get()) {
+            return -1L;
+        } else {
+            return exceptionCatcher(() -> rentalRepository.saveAndFlush(rental)).getId();
+        }
     }
 
     @Override
@@ -111,10 +121,9 @@ public class RentalServiceImpl implements RentalService{
             exceptionCatcher(() -> rentalRepository.saveAndFlush(obtainedRental));
         }
     }
-
     @Override
     public Optional<Boolean> checkAvailabilityForRent(Long machineId, LocalDate rentalDate, LocalDate returnDate) {
-        if (rentalRepository.findAllByMachineId(machineId).isEmpty()){
+        if (machineRepository.findById(machineId).isEmpty()){
             return Optional.empty();
         } else {
              return Optional.of(
