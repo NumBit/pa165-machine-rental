@@ -15,6 +15,9 @@ import javax.persistence.Table;
  * key, as reference to ID inside a table representing
  * parent class {@link AbstractUser}. This way
  * inheritance is mapped to the application database.
+ * {@link EqualsAndHashCode} and {@link ToString} annotations
+ * are explicitly declared forcing call to {@link AbstractUser}
+ * same annotations.
  *
  * @author Norbert Dopjera 456355@mail.muni.cz
  */
@@ -27,7 +30,7 @@ import javax.persistence.Table;
 public class Admin extends AbstractUser {
 
     @Column(nullable = false) private String name;
-    @Column(nullable = false) private String sureName;
+    @Column(nullable = false, name = "sure_name") private String sureName;
 
     @lombok.Builder(builderClassName = "Builder", toBuilder = true)
     public Admin(Long id, String login, String passwordHash,

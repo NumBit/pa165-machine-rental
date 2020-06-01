@@ -8,6 +8,8 @@
 **/target
 
 ## Frontend ##
+react
+node
 # Logs
 logs
 *.log

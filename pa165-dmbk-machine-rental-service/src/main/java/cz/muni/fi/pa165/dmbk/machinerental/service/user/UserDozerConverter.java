@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.user;
 
 import com.github.dozermapper.core.CustomConverter;
 import com.github.dozermapper.core.MappingException;

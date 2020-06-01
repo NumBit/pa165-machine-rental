@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -90,6 +91,12 @@ public class RentalDataLayerTest {
         Assert.assertSame(machine, foundRental.getMachine());
     }
 
+    @Test(expected = InvalidDataAccessApiUsageException.class)
+    @Rollback
+    public void createRentalWithNull() {
+        rentalRepository.save(null);
+    }
+
     @Test
     @Rollback
     public void findById() {
@@ -124,6 +131,12 @@ public class RentalDataLayerTest {
         Assert.assertTrue(optionalFoundRental.isEmpty());
     }
 
+    @Test(expected = InvalidDataAccessApiUsageException.class)
+    @Rollback
+    public void findByNullId() {
+        rentalRepository.findById(null);
+    }
+
     @Test
     @Rollback
     public void findRentalsForCustomerId() {
@@ -151,6 +164,14 @@ public class RentalDataLayerTest {
     public void findRentalsForCustomerIdNegative() {
         var foundRentals = rentalRepository.findAllByCustomerId(-1L);
         Assert.assertTrue(foundRentals.isEmpty());
+    }
+
+    @Test
+    @Rollback
+    public void findRentalsForCustomerNullId() {
+        // since method returns list, null may be provided
+        // result will be empty list
+        Assert.assertTrue(rentalRepository.findAllByCustomerId(null).isEmpty());
     }
 
     @Test
@@ -185,6 +206,14 @@ public class RentalDataLayerTest {
 
     @Test
     @Rollback
+    public void findRentalsForMachineNullId() {
+        // since method returns list, null may be provided
+        // result will be empty list
+        Assert.assertTrue(rentalRepository.findAllByMachineId(null).isEmpty());
+    }
+
+    @Test
+    @Rollback
     public void deleteRentalById() {
         var machine = machineRepository.saveAndFlush(getBasicMachineWithAppendix("2"));
         var customer = userRepository.saveAndFlush(getBasicCustomerWithAppendix("2"));
@@ -213,6 +242,12 @@ public class RentalDataLayerTest {
         Assertions.assertThrows(
                 EmptyResultDataAccessException.class,
                 () -> rentalRepository.deleteById(-1L));
+    }
+
+    @Test(expected = InvalidDataAccessApiUsageException.class)
+    @Rollback
+    public void deleteRentalByNullId() {
+        rentalRepository.deleteById(null);
     }
 
     @Test

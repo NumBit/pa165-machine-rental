@@ -5,8 +5,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.repository.UserRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
-import cz.muni.fi.pa165.dmbk.machinerental.service.UserService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -99,6 +97,27 @@ public class UserServiceTest {
         Assert.assertFalse(falseAdmin.get());
         Assert.assertTrue(trueAdmin.isPresent());
         Assert.assertTrue(trueAdmin.get());
+    }
+
+    @Test
+    public void promoteToAdmin() {
+        when(userRepository.save(CustomerEntity(1L))).thenReturn(CustomerEntity(1L));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(CustomerEntity(1L)));
+        var newAdmin = Admin.builder()
+                .id(6L)
+                .login(CustomerEntity(1L).getLogin())
+                .passwordHash(CustomerEntity(1L).getPasswordHash())
+                .name("newName")
+                .sureName("newSureName")
+                .build();
+        when(userRepository.save(newAdmin)).thenReturn(newAdmin);
+        when(userRepository.findById(6L)).thenReturn(Optional.of(newAdmin));
+
+        userService.persistUser(CustomerEntity(1L));
+        Assert.assertTrue(userService.findById(customer.getId()).isPresent());
+        var newAdminId = userService.promoteToAdmin(customer.getId()).orElse(null).getId();
+        Assert.assertTrue(userService.findById(newAdminId).orElse(null) instanceof Admin);
+        Assert.assertTrue(userService.isAdmin(userService.findById(newAdminId).orElse(null)).orElse(null));
     }
 
     @Test
