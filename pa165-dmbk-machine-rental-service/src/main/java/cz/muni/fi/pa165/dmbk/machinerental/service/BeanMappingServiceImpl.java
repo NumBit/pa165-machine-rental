@@ -12,6 +12,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * BeanMapping service implementation {@link BeanMappingService}
+ *
+ * @author Peter Baltazarovič
+ */
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Rental facade implementation {@link RentalFacade}
+ *
  * @author Peter Baltazarovič
  */
 @Component
