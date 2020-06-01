@@ -116,14 +116,4 @@ public class UserRestController {
         var customers = userFacade.findAllCustomers();
         return ResponseEntity.ok(customers);
     }
-
-    @PostConstruct
-    private void init() {
-        userFacade.persistUser(CustomerDto.builder()
-                .withEmail("test@email.com")
-                .withLegalForm(LegalForm.INDIVIDUAL)
-                .withLogin("testuser")
-                .withPasswordHash(passwordEncoder.encode("testuser"))
-                .build());
-    }
 }

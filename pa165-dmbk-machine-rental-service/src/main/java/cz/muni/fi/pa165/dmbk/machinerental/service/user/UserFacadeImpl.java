@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.user;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.UserFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.AdminDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.CustomerDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.UserDto;
+import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
+import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
  * which are used by service and data layer. Implementation will be
  * picked automatically by spring boot component scanning, so one can
  * just use @Autowired {@link UserFacade} to obtain this implementation.
+ *
+ * @author Norbert Dopjera 456355@mail.muni.cz
  */
 @Component
 @Transactional(rollbackFor = CustomDataAccessException.class)

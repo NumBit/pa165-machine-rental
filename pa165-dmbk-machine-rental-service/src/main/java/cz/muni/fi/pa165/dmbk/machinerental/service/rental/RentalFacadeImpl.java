@@ -1,17 +1,13 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.rental;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.RentalFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalCreateDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
-import cz.muni.fi.pa165.dmbk.machinerental.service.UserService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;

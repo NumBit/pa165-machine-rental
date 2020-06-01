@@ -3,8 +3,6 @@ package cz.muni.fi.pa165.dmbk.machinerental.service.machine;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

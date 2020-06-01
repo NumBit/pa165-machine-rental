@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.revision;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.revision.model.Revision;
 import org.springframework.stereotype.Service;

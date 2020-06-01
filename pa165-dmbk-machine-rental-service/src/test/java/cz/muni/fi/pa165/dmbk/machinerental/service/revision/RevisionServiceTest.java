@@ -2,8 +2,6 @@ package cz.muni.fi.pa165.dmbk.machinerental.service.revision;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.revision.model.Revision;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.revision.repository.RevisionRepository;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RevisionService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RevisionServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

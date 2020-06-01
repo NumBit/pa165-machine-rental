@@ -104,36 +104,4 @@ public class RevisionRestController {
         revisionFacade.setRevisionNote(id, note);
         return revisionFacade.findById(id).isPresent() ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
-
-    @PostConstruct
-    private void init() {
-        Long machine1 = machineFacade.persistMachine(
-                MachineDto.builder()
-                        .withName("machine1")
-                        .withDescription("description")
-                        .withManufacturer("manufacturer")
-                        .withPrice(new BigDecimal(0))
-                        .build());
-        Long machine2 = machineFacade.persistMachine(
-                MachineDto.builder()
-                        .withName("machine2")
-                        .withDescription("description")
-                        .withManufacturer("manufacturer")
-                        .withPrice(new BigDecimal(0))
-                        .build());
-        Long machine3 = machineFacade.persistMachine(
-                MachineDto.builder()
-                        .withName("machine3")
-                        .withDescription("description")
-                        .withManufacturer("manufacturer")
-                        .withPrice(new BigDecimal(0))
-                        .build());
-        Optional<MachineDto> optionalMachineDto = machineFacade.findById(machine2);
-        if(optionalMachineDto.isPresent()) {
-            MachineDto machineDto = optionalMachineDto.get();
-            LocalDate date = LocalDate.now();
-            RevisionCreateDto revisionCreateDto = new RevisionCreateDto(date, Time.valueOf(LocalTime.now()), machineDto, "note");
-            revisionFacade.createRevision(revisionCreateDto);
-        }
-    }
 }

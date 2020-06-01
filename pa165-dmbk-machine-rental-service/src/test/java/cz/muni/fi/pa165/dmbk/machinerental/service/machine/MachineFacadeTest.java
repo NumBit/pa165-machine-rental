@@ -6,8 +6,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.MachineFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingServiceImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineFacadeImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +21,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 

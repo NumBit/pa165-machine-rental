@@ -5,8 +5,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.repository.RentalRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,8 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.machine;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
+import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

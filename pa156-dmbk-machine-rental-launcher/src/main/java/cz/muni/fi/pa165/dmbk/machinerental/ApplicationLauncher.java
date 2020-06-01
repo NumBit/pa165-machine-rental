@@ -17,8 +17,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * modules functionality.
  */
 @SpringBootApplication
-@EntityScan("cz.muni.fi.pa165.dmbk.machinerental")
-@EnableJpaRepositories("cz.muni.fi.pa165.dmbk.machinerental")
 public class ApplicationLauncher extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -29,5 +27,4 @@ public class ApplicationLauncher extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(ApplicationLauncher.class);
     }
-
-} // ApplicationLauncher
+}
