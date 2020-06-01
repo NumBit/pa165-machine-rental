@@ -11,9 +11,11 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.UserDto;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,20 +45,28 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<UserDto> findByLogin(String login) {
+    public Optional<UserDto> findByLogin(@NonNull String login) {
+        // if not valid login is provided userService will return empty optional
+        // no validation is required
         return userService.findByLogin(login)
                 .map(UserFacadeImpl::entityToUserDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Boolean> isAdmin(UserDto userDto) {
-        return userService.isAdmin(userDtoToEntity(userDto));
+    public Optional<Boolean> isAdmin(@NonNull UserDto userDto) {
+        // only user ID is required for this functionality to work
+        return (userDto.getId() == null)
+                ? Optional.of(false)
+                : userService.isAdmin(userDtoToEntity(userDto));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CustomerDto> findCustomersByLegalForm(LegalForm legalForm) {
+    public List<CustomerDto> findCustomersByLegalForm(@NonNull LegalForm legalForm) {
+        // if legal from does not contain valid information return empty list
+        if (!legalForm.equals(LegalForm.CORPORATION) && !legalForm.equals(LegalForm.INDIVIDUAL))
+            return List.of();
         return userService.findCustomersByLegalForm(legalForm)
                 .stream()
                 .map(UserFacadeImpl::entityToUserDto)
@@ -66,7 +76,9 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CustomerDto> findCustomerByEmail(String email) {
+    public Optional<CustomerDto> findCustomerByEmail(@NonNull String email) {
+        // if not valid email is provided userService will return empty optional
+        // no validation is required
         return userService.findCustomerByEmail(email)
                 .map(UserFacadeImpl::entityToUserDto)
                 .map(userDto -> (CustomerDto) userDto);
@@ -80,7 +92,9 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AdminDto> findAdminsBySureName(String sureName) {
+    public List<AdminDto> findAdminsBySureName(@NonNull String sureName) {
+        // if not valid sureName is provided userService will return empty optional
+        // no validation is required
         return userService.findAdminsBySureName(sureName)
                 .stream()
                 .map(UserFacadeImpl::entityToUserDto)
@@ -89,7 +103,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteUserById(@NonNull Long id) {
         userService.deleteUserById(id);
     }
 

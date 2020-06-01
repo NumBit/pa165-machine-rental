@@ -34,7 +34,8 @@ import java.util.List;
 /**
  * Rest controller representing REST API endpoint
  * for user (customer | admin) operations using
- * mainly JSON data format.
+ * mainly JSON data format. See facade layer
+ * functionalities to check validation's.
  *
  * @author Norbert Dopjera 456355@mail.muni.cz
  */
@@ -46,7 +47,6 @@ public class UserRestController {
 
     @Autowired private UserFacade userFacade;
     @Autowired private SecurityService securityService;
-    @Autowired private BCryptPasswordEncoder passwordEncoder;
 
     @Getter
     @ToString
@@ -65,6 +65,8 @@ public class UserRestController {
 
     @PostMapping("${spring.rest-api.userPath}/login")
     public ResponseEntity<UserDto> login(@RequestBody Credentials credentials) {
+        // no matter what credentials contain, it must be valid authentication data
+        // otherwise security service will return false, thus no validations are required
         return securityService.authenticate(credentials.getUsername(), credentials.getPassword())
                 ? ResponseEntity.of(securityService.findLoggedInUser())
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -107,7 +109,9 @@ public class UserRestController {
     @GetMapping("${spring.rest-api.adminPath}/is/{login}")
     public ResponseEntity<Boolean> isAdmin(@PathVariable String login) {
         var user = userFacade.findByLogin(login);
-        return user.map(userDto -> ResponseEntity.ok(userFacade.isAdmin(userDto).get()))
+        if (user.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        return user.map(userDto -> ResponseEntity.ok(userFacade.isAdmin(userDto).get())) // safe get
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(false));
     }
 
