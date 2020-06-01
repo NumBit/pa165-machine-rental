@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.dmbk.machinerental.dao.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -19,6 +20,9 @@ import javax.persistence.Table;
  * by this abstract class will be stored in database
  * inside table representing this entity. This allows
  * to use inheritance of entities without redundant data.
+ * {@link EqualsAndHashCode} annotation is explicitly
+ * declared to force exclusion of ID field. See
+ * {@link Data} annotation.
  *
  * @author Norbert Dopjera 456355@mail.muni.cz
  */
@@ -26,6 +30,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "id")
 @Table(name = "ABSTRACT_USER")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class AbstractUser implements User {
@@ -37,6 +42,6 @@ public abstract class AbstractUser implements User {
     @Column(nullable = false, unique = true)
     protected String login;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "password_hash")
     protected String passwordHash;
 }

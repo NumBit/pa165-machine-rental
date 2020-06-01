@@ -2,9 +2,8 @@ package cz.muni.fi.pa165.dmbk.machinerental.service.machine;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
+import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -94,6 +94,23 @@ public class MachineServiceTest {
         var foundMachines = machineService.findByManufacturerLike("machineManufacturer");
         Assert.assertEquals(1, foundMachines.size());
         Assert.assertEquals(Long.valueOf(2), foundMachines.get(0).getId());
+    }
+
+    @Test
+    public void findById() {
+        when(machineRepository.findById(2L)).thenReturn(Optional.of(getSimpleMachineDao()));
+        var foundMachine = machineService.findById(2L);
+        Assert.assertTrue(foundMachine.isPresent());
+        Assert.assertTrue(foundMachine.get() instanceof Machine);
+        Assert.assertEquals(getSimpleMachineDao().getId(), foundMachine.get().getId());
+        Assert.assertEquals(getSimpleMachineDao().getName(), foundMachine.get().getName());
+    }
+
+    @Test
+    public void findByIdNegative() {
+        when(machineRepository.findById(1L)).thenReturn(Optional.empty());
+        var foundMachine = machineService.findById(1L);
+        Assert.assertTrue(foundMachine.isEmpty());
     }
 
     private Machine getSimpleMachineDao() {

@@ -11,8 +11,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.CustomerDto;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingServiceImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalFacadeImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

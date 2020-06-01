@@ -71,6 +71,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <addResources>true</addResources>
+                    <mainClass>package cz.muni.fi.pa165.dmbk.machinerental.ApplicationLauncher</mainClass>
                 </configuration>
             </plugin>
         </plugins>
