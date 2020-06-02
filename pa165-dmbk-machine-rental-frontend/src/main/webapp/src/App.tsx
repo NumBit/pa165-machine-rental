@@ -18,7 +18,7 @@ const App: React.FC = () => {
   return (
     <GlobalProvider>
       {signedIn ? (
-        <HashRouter basename="pa165">
+        <HashRouter basename="">
           <ApplicationBar />
           <SideNavigation />
           <main>
