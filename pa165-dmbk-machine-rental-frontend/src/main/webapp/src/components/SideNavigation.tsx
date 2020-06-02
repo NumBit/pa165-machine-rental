@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { GlobalContext, isAdmin } from "../context/GlobalState";
+import {GlobalContext, isAdmin, isUnauthenticated} from "../context/GlobalState";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavLink as RouterNavLink } from "react-router-dom";
@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import { Link } from 'react-router-dom';
+import Toolbar from "@material-ui/core/Toolbar";
 
 const drawerWidth = 240;
 
@@ -95,14 +96,20 @@ const SideNavigation = () => {
     </>
   );
 
+  const logoutChoice = (
+    <>
+    <Divider/>
+    <ListItem button>
+        <Button className={classes.button} variant="contained"
+                component={Link} to='/' onClick={() => handleLogout()}>Logout</Button>
+    </ListItem>
+    </>
+  );
+
   return (
     <div className={classes.drawer}>
-      {isAdmin(user) ? adminNavigation : customerNavigation}
-      <Divider />
-        <ListItem button>
-          <Button className={classes.button} variant="contained"
-                  component={Link} to='/' onClick={() => handleLogout()}>Logout</Button>
-        </ListItem>
+        {isAdmin(user) ? adminNavigation : customerNavigation}
+        {isUnauthenticated(user) ? "" : logoutChoice}
     </div>
   );
 };
