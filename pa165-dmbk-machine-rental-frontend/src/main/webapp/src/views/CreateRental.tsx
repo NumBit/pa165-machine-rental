@@ -7,19 +7,17 @@ import {AddRental} from "../components/AddRental";
 import {MachineAvailability} from "../components/MachineAvailability";
 import {AddRentalAdmin} from "../components/AddRentalAdmin";
 
-const Rentals = () => {
-  const { user } = useContext(GlobalContext);
-    const customersView = <div><RentalsList/><AddRental/></div>;
-    const adminsView = <div><AdminRentalList/><AddRentalAdmin/></div>;
+const CreateRental = () => {
+    const { user } = useContext(GlobalContext);
+    const customersView = <div><AddRental/></div>;
+    const adminsView = <div><AddRentalAdmin/></div>;
 
-  return (
-    <div>
-      <h1>Rentals</h1>
-      {isAdmin(user) ? adminsView : customersView}
-      <MachineAvailability/>
+    return (
+        <div>
+            {isAdmin(user) ? adminsView : customersView}
 
-    </div>
-  );
+        </div>
+    );
 };
 
-export default Rentals;
+export default CreateRental;

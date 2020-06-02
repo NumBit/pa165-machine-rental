@@ -12,6 +12,7 @@ import SideNavigation from "./components/SideNavigation";
 import ApplicationBar from "./components/ApplicationBar";
 
 import { GlobalProvider, GlobalContext } from "./context/GlobalState";
+import CreateRental from "./views/CreateRental";
 
 const App: React.FC = () => {
   const { signedIn } = useContext(GlobalContext);
@@ -26,6 +27,7 @@ const App: React.FC = () => {
               <Route exact path="/" component={Login} />
               <Route path="/machines" component={Machines} />
               <Route path="/rentals" component={Rentals} />
+              <Route path="/createRental" component={CreateRental} />
               <Route path="/profile" component={Profile} />
               <PrivateRoute path="/revisions" component={Revisions} />
               <PrivateRoute path="/customers" component={Customers} />

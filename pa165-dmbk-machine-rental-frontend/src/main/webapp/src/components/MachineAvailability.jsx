@@ -11,14 +11,10 @@ import * as yup from "yup";
 import RentalDataService from "./RentalDataService";
 import MenuItem from "@material-ui/core/MenuItem";
 import Alert from "@material-ui/lab/Alert";
-import {useHistory} from "react-router";
 
-
-let RentalSchema = yup.object().shape({
-    description:
-        yup.string()
-            .required("Required")
-            .max(60, "Max 60 characters."),
+let AvailabilitySchema = yup.object().shape({
+    machine: yup.object()
+        .typeError("Required"),
     rentalDate:
         yup.date()
             .required("Required")
@@ -27,9 +23,6 @@ let RentalSchema = yup.object().shape({
         yup.date()
             .required("Required")
             .min(yup.ref("rentalDate"), "Return date must be after rental"),
-    machine:
-        yup.object()
-            .typeError("Required")
 });
 
 const useStyles = makeStyles(theme => ({
@@ -54,69 +47,40 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
-export const AddRental = () => {
+export const MachineAvailability = () => {
     const classes = useStyles();
-    const history = useHistory();
-    const [creatingResponse, setCreatingResponse] = useState(0);
-    const [user, setUser] = useState({});
     const [machines, setMachines] = useState([]);
+    const [availability, setAvailability] = useState(false);
+    const [checked, setChecked] = useState(false);
 
-    useEffect(() => {
-       getAuthenticatedUser();
-       getAllMachines();
+    useEffect(()=>{
+        getAllMachines();
     }, []);
-
-
-    const getAuthenticatedUser = () => {
-        RentalDataService.getAuthenticatedUser().then(response => setUser(response.data))
-    };
 
     const getAllMachines = () => {
         RentalDataService.getAllMachines().then(response => setMachines(response.data))
-    };
-
-    const redirectBackToList = (success) => {
-        if(success > 0) {
-            history.push("/rentals");
-        }
     };
 
     return(
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    Add rental
+                    Check machine availability
                 </Typography>
                 <Formik
                     initialValues={{
-                    customer: user,
-                    machine: null,
-                    description: "",
-                    rentalDate: "",
-                    returnDate: "",
-                }}
-                    validationSchema={RentalSchema}
+                        machine: null,
+                        rentalDate: "",
+                        returnDate: ""
+                    }}
+                    validationSchema={AvailabilitySchema}
                     onSubmit={values => {
-                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, values.machine, user).then(response => {setCreatingResponse(response.data); redirectBackToList(response.data)})}}
-                >
+                        RentalDataService.checkMachineAvailability(values.machine.id, values.rentalDate, values.returnDate).then(response => {setAvailability(response.data); setChecked(true)})}}
+                    >
 
                     {({errors, handleChange, touched }) => (
                         <Form className={classes.form}>
                             <Grid container spacing={3}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
-                                        error={Boolean(errors.description) && touched.description}
-                                        name="description"
-                                        label="Description"
-                                        onChange={handleChange}
-                                        style={{minWidth:400}}
-                                        helperText=
-                                            {errors.description && touched.description
-                                                ? errors.description : null}
-                                    />
-                                </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         variant="outlined"
@@ -171,8 +135,9 @@ export const AddRental = () => {
                                         ))}
                                     </TextField>
                                 </Grid>
-                                    {(creatingResponse === -1) ? <Grid item xs={12}><Alert severity="error">Machine is not available in selected dates!</Alert> </Grid>: null}
-                                    {creatingResponse === -2 ? <Grid item xs={12}><Alert severity="error">Machine not found!</Alert> </Grid>: null}
+                                <Grid item xs={12} className={classes.center}>
+                                    {touched.machine ? (availability ? <Alert severity="success">Machine is available.</Alert>: <Alert severity="error">Machine is not available in selected dates!</Alert>): null}
+                                </Grid>
                                 <Grid item xs={12} className={classes.center}>
                                     <Button
                                         type="submit"
@@ -181,7 +146,7 @@ export const AddRental = () => {
                                         color="primary"
                                         className={classes.submit}
                                     >
-                                        Create Rental
+                                        Check availability
                                     </Button>
                                 </Grid>
                             </Grid>

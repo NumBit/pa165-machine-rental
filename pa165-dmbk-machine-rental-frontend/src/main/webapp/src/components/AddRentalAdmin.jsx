@@ -11,7 +11,6 @@ import * as yup from "yup";
 import RentalDataService from "./RentalDataService";
 import MenuItem from "@material-ui/core/MenuItem";
 import Alert from "@material-ui/lab/Alert";
-import {useHistory} from "react-router";
 
 
 let RentalSchema = yup.object().shape({
@@ -29,7 +28,10 @@ let RentalSchema = yup.object().shape({
             .min(yup.ref("rentalDate"), "Return date must be after rental"),
     machine:
         yup.object()
-            .typeError("Required")
+            .typeError("Required"),
+    customer:
+        yup.object()
+            .typeError("Required"),
 });
 
 const useStyles = makeStyles(theme => ({
@@ -55,32 +57,26 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export const AddRental = () => {
+export const AddRentalAdmin = () => {
     const classes = useStyles();
-    const history = useHistory();
     const [creatingResponse, setCreatingResponse] = useState(0);
-    const [user, setUser] = useState({});
     const [machines, setMachines] = useState([]);
+    const [customers,setCustomers] = useState([]);
 
     useEffect(() => {
-       getAuthenticatedUser();
-       getAllMachines();
+        getAllMachines();
+        getAllCustomers();
     }, []);
 
-
-    const getAuthenticatedUser = () => {
-        RentalDataService.getAuthenticatedUser().then(response => setUser(response.data))
-    };
 
     const getAllMachines = () => {
         RentalDataService.getAllMachines().then(response => setMachines(response.data))
     };
 
-    const redirectBackToList = (success) => {
-        if(success > 0) {
-            history.push("/rentals");
-        }
+    const getAllCustomers = () => {
+        RentalDataService.getAllCustomers().then(response => setCustomers(response.data))
     };
+
 
     return(
         <Container component="main" maxWidth="xs">
@@ -90,15 +86,15 @@ export const AddRental = () => {
                 </Typography>
                 <Formik
                     initialValues={{
-                    customer: user,
-                    machine: null,
-                    description: "",
-                    rentalDate: "",
-                    returnDate: "",
-                }}
+                        customer: null,
+                        machine: null,
+                        description: "",
+                        rentalDate: "",
+                        returnDate: "",
+                    }}
                     validationSchema={RentalSchema}
                     onSubmit={values => {
-                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, values.machine, user).then(response => {setCreatingResponse(response.data); redirectBackToList(response.data)})}}
+                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, values.machine, values.customer).then(response => {setCreatingResponse(response.data)})}}
                 >
 
                     {({errors, handleChange, touched }) => (
@@ -171,8 +167,29 @@ export const AddRental = () => {
                                         ))}
                                     </TextField>
                                 </Grid>
-                                    {(creatingResponse === -1) ? <Grid item xs={12}><Alert severity="error">Machine is not available in selected dates!</Alert> </Grid>: null}
-                                    {creatingResponse === -2 ? <Grid item xs={12}><Alert severity="error">Machine not found!</Alert> </Grid>: null}
+                                <Grid item xs={12}>
+                                    <TextField
+                                        variant="outlined"
+                                        error={Boolean(errors.customer && touched.customer)}
+                                        name="customer"
+                                        select
+                                        label="Customer"
+                                        onChange={handleChange}
+                                        helperText=
+                                            {errors.customer && touched.customer
+                                                ? errors.customer :"Renting customer"}
+                                        style={{minWidth:400}}
+
+                                    >
+                                        {customers.map((option) => (
+                                            <MenuItem key={option} value={option}>
+                                                {option.login}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </Grid>
+                                {(creatingResponse === -1) ? <Grid item xs={12}><Alert severity="error">Machine is not available in selected dates!</Alert> </Grid>: null}
+                                {creatingResponse === -2 ? <Grid item xs={12}><Alert severity="error">Machine not found!</Alert> </Grid>: null}
                                 <Grid item xs={12} className={classes.center}>
                                     <Button
                                         type="submit"
