@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.RentalFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalCreateDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
+import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalUpdateDto;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +20,11 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
+/***
+ * Rental REST controller
+ *
+ * @author Peter Baltazarovič
+ */
 @Slf4j
 @RestController
 @PropertySource(value = "classpath:application.properties")
@@ -93,6 +99,11 @@ public class RentalRestController {
     @PostMapping("${spring.rest-api.rentalPath}/create")
     public ResponseEntity<Long> create(@RequestBody RentalCreateDto rental){
         return ResponseEntity.ok(rentalFacade.createRental(rental));
+    }
+
+    @PostMapping("${spring.rest-api.rentalPath}/update")
+    public ResponseEntity<Long> update(@RequestBody RentalUpdateDto rental){
+        return ResponseEntity.ok(rentalFacade.updateRental(rental));
     }
 
     @GetMapping("${spring.rest-api.rentalPath}/machine/{id}")

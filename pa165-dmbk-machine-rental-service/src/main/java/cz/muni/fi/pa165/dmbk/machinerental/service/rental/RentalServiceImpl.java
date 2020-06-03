@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dmbk.machinerental.service.rental;
 
+import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.repository.RentalRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
@@ -12,6 +13,8 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 
 /**
+ * Rental service implementation {@link RentalService}
+ *
  * @author Peter Baltazarovič
  */
 @Service
@@ -19,15 +22,54 @@ public class RentalServiceImpl implements RentalService{
 
     @Autowired
     private RentalRepository rentalRepository;
+    @Autowired
+    private MachineRepository machineRepository;
 
     @Override
     public Long createRental(Rental rental) {
-        return exceptionCatcher(() -> rentalRepository.saveAndFlush(rental)).getId();
+        var availabilityOfMachine = checkAvailabilityForRent(rental.getMachine().getId(), rental.getRentalDate(), rental.getReturnDate());
+        if(availabilityOfMachine.isEmpty()) {
+            return -2L;
+        } else if(!availabilityOfMachine.get()) {
+            return -1L;
+        } else {
+            return exceptionCatcher(() -> rentalRepository.saveAndFlush(rental)).getId();
+        }
     }
 
     @Override
-    public void updateRental(Rental rental) {
-        exceptionCatcher(() -> rentalRepository.save(rental));
+    public Long updateRental(Rental rental) {
+        var originalRental = rentalRepository.findById(rental.getId());
+        if(originalRental.isEmpty()) {
+            return -2L;
+        }
+        rental.setMachine(originalRental.get().getMachine());
+        rental.setCustomer(originalRental.get().getCustomer());
+        var availabilityOfMachine = checkAvailabilityForRent(rental.getMachine().getId(), rental.getRentalDate(), rental.getReturnDate());
+
+        if(!availabilityOfMachine.get()) {
+            var rentalSelfBlock = true;
+            var returnSelfBlock = true;
+
+            var rentalDateRentals = rentalRepository.findAllByRentalDateBetweenAndMachineId(rental.getRentalDate(), rental.getReturnDate(), rental.getMachine().getId());
+            var returnDateRentals = rentalRepository.findAllByReturnDateBetweenAndMachineId(rental.getRentalDate(), rental.getReturnDate(), rental.getMachine().getId());
+
+            if(rentalDateRentals.size() > 1) {
+                rentalSelfBlock = false;
+            } else if (rentalDateRentals.size() == 1) {
+                rentalSelfBlock = rentalDateRentals.get(0).getId().equals(rental.getId());
+            }
+            if(returnDateRentals.size() > 1) {
+                returnSelfBlock = false;
+            } else if (returnDateRentals.size() == 1) {
+                returnSelfBlock = returnDateRentals.get(0).getId().equals(rental.getId());
+            }
+            if(!rentalSelfBlock || !returnSelfBlock) {
+                return -1L;
+            }
+        }
+
+        return exceptionCatcher(() -> rentalRepository.save(rental)).getId();
     }
 
     @Override
@@ -109,10 +151,9 @@ public class RentalServiceImpl implements RentalService{
             exceptionCatcher(() -> rentalRepository.saveAndFlush(obtainedRental));
         }
     }
-
     @Override
     public Optional<Boolean> checkAvailabilityForRent(Long machineId, LocalDate rentalDate, LocalDate returnDate) {
-        if (rentalRepository.findAllByMachineId(machineId).isEmpty()){
+        if (machineRepository.findById(machineId).isEmpty()){
             return Optional.empty();
         } else {
              return Optional.of(

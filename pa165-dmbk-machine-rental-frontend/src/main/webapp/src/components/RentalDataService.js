@@ -34,5 +34,11 @@ class RentalDataService {
     getAuthenticatedUser() {
         return axios.get("http://localhost:8080/pa165/rest/user/authenticated")
     }
+
+    updateRental(id, description, rentalDate, returnDate) {
+        return axios.post("http://localhost:8080/pa165/rest/rental/update",
+            {id: id, description: description, rentalDate: rentalDate, returnDate: returnDate})
+    }
+
 }
 export default new RentalDataService()

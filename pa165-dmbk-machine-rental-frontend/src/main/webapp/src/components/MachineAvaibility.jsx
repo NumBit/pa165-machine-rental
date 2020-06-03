@@ -16,7 +16,7 @@ class MachineAvaibility extends Component{
             returnDate: "",
             available: false,
             checked: false
-        }
+        };
 
         this.handleRentalChange = this.handleRentalChange.bind(this);
         this.handleReturnChange = this.handleReturnChange.bind(this);
@@ -90,7 +90,7 @@ class MachineAvaibility extends Component{
                         CheckAvailability
                     </Button>
                 </form>
-                {this.state.available ? <Alert severity="success">Machine is available.</Alert>: <Alert severity="error">Machine is not available in selected dates!</Alert>}
+                {this.state.checked ? (this.state.available ? <Alert severity="success">Machine is available.</Alert>: <Alert severity="error">Machine is not available in selected dates!</Alert>): null}
             </div>
         );
     }
