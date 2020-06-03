@@ -14,9 +14,10 @@ import {
 } from "@material-ui/core";
 import CreateMachineForm from "../components/CreateMachineForm";
 import TextField from "@material-ui/core/TextField";
+import {Alert} from "@material-ui/lab";
 
 /**
- * Machine View
+ * Machine View with pagination
  *
  * @author Márius Molčány - UČO: 456350 - Github: overlordsvk
  */
@@ -48,17 +49,16 @@ interface Row {
 }
 
 const table: Row[] = [
-    {id: 'id', label: 'Id', minWidth: 50},
     {id: 'name', label: 'Name', minWidth: 50},
     {
-        id: 'description',
-        label: 'Description',
+        id: 'manufacturer',
+        label: 'Manufacturer',
         minWidth: 50,
         align: 'right'
     },
     {
-        id: 'manufacturer',
-        label: 'Manufacturer',
+        id: 'description',
+        label: 'Description',
         minWidth: 50,
         align: 'right'
     },
@@ -150,7 +150,7 @@ export default function Machines() {
     };
 
     return (
-        <Paper className={classes.root}>
+        <Paper className={classes.root} style={{width: "80%"}}>
             {isAdmin(user) ?
                 <CreateMachineForm
                 setData={setResult}/>
@@ -183,7 +183,7 @@ export default function Machines() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {result.status === 'loading' && <div>Loading...</div>}
+                        {result.status === 'loading' && <div></div>}
                         {result.status === 'loaded' &&
                         result.payload.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
@@ -205,13 +205,13 @@ export default function Machines() {
                         })
                         }
                         {result.status === 'error' && (
-                            <div>Error, the backend not connected.</div>
+                            <div></div>
                         )}
 
                     </TableBody>
                 </Table>
             </TableContainer>
-            {result.status === 'loading' && <div>Loading...</div>}
+            {result.status === 'loading' && <div><Alert severity="warning">Loading...</Alert></div>}
             {result.status === 'loaded' &&
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
@@ -224,7 +224,7 @@ export default function Machines() {
             />
             }
             {result.status === 'error' && (
-                <div>Error, the backend not connected.</div>
+                <div><Alert severity="error">Error, the backend not connected.</Alert></div>
             )}
         </Paper>
     );
