@@ -24,10 +24,10 @@ public class Rental {
     @EqualsAndHashCode.Exclude
     private Long  id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "rental_date")
     private LocalDate rentalDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "return_date")
     private LocalDate returnDate;
 
     @ManyToOne

@@ -9,8 +9,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.AdminDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.user.model.CustomerDto;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingServiceImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.UserFacadeImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

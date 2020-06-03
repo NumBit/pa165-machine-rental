@@ -1,9 +1,10 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.user;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.User;
+import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public interface UserService {
     Optional<User> findById(Long id);
     Optional<User> findByLogin(String login);
     Optional<Boolean> isAdmin(User user);
+    Optional<Admin> promoteToAdmin(Long id);
     List<Customer> findAllCustomers();
     List<Customer> findCustomersByLegalForm(LegalForm legalForm);
     Optional<Customer> findCustomerByEmail(String email);

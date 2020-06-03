@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dmbk.machinerental.service;
+package cz.muni.fi.pa165.dmbk.machinerental.service.user;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.AbstractUser;
@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Admin;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.Customer;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.model.User;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.repository.UserRepository;
+import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,20 @@ public class UserServiceImpl implements UserService {
     public Optional<Boolean> isAdmin(User user) {
         return findById(user.getId())
                 .map(foundUser -> foundUser instanceof Admin);
+    }
+
+    public Optional<Admin> promoteToAdmin(Long id) {
+        return userRepository.findById(id)
+                .flatMap(foundUser -> {
+                    var newAdmin = userRepository.save(Admin.builder()
+                            .login(foundUser.getLogin())
+                            .passwordHash(foundUser.getPasswordHash())
+                            .name("newName")
+                            .sureName("newSureName")
+                            .build());
+                    userRepository.deleteById(foundUser.getId());
+                    return Optional.of(newAdmin);
+                });
     }
 
     public List<Customer> findCustomersByLegalForm(LegalForm legalForm) {

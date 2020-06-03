@@ -6,8 +6,6 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.MachineFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
 import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingServiceImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineFacadeImpl;
-import cz.muni.fi.pa165.dmbk.machinerental.service.MachineService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -109,10 +107,27 @@ public class MachineFacadeTest {
         Assert.assertEquals(Long.valueOf(2), foundMachines.get(0).getId());
     }
 
+    @Test
+    public void findById() {
+        when(machineService.findById(2L)).thenReturn(Optional.of(getSimpleMachineDao()));
+        var foundMachine = machineFacade.findById(2L);
+        Assert.assertTrue(foundMachine.isPresent());
+        Assert.assertTrue(foundMachine.get() instanceof MachineDto);
+        Assert.assertEquals(getSimpleMachineDao().getId(), foundMachine.get().getId());
+        Assert.assertEquals(getSimpleMachineDao().getName(), foundMachine.get().getName());
+    }
+
+    @Test
+    public void findByIdNegative() {
+        when(machineService.findById(1L)).thenReturn(Optional.empty());
+        var foundMachine = machineFacade.findById(1L);
+        Assert.assertTrue(foundMachine.isEmpty());
+    }
+
     private Machine getSimpleMachineDao() {
         Machine simpleMachine = new Machine();
         simpleMachine.setId(2L);
-        simpleMachine.setName("machineName");
+        simpleMachine.setName("machine");
         simpleMachine.setDescription("machineDescription");
         simpleMachine.setManufacturer("machineManufacturer");
         simpleMachine.setPrice(new BigDecimal(0));

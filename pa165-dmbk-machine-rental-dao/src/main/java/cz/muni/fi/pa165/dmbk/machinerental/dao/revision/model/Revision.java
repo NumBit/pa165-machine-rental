@@ -26,10 +26,10 @@ public class Revision {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "revision_date")
     private LocalDate revisionDate;
 
-    @Column (nullable = false)
+    @Column (nullable = false, name = "revision_time")
     private Time revisionTime;
 
     @ManyToOne
