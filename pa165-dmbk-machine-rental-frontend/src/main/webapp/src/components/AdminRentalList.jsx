@@ -5,10 +5,7 @@ import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import {Paper, TableRow, TableCell, TableBody} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import TablePagination from "@material-ui/core/TablePagination";
-import {Link} from "react-router-dom";
 import {UpdateRental} from "./UpdateRental";
 
 
@@ -52,6 +49,11 @@ class AdminRentalList extends Component {
         RentalDataService.getAllRentals().then(response => this.setState({rentals: response.data}));
     }
 
+    date_diff_indays(date1, date2) {
+        let dt1 = new Date(date1);
+        let dt2 = new Date(date2);
+        return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+    };
 
     render(){
         return(
@@ -65,6 +67,7 @@ class AdminRentalList extends Component {
                                 <TableCell align="right">Return Date</TableCell>
                                 <TableCell align="right">Machine</TableCell>
                                 <TableCell align="right">Customer</TableCell>
+                                <TableCell align="right">Price</TableCell>
                                 <TableCell align="right">Edit</TableCell>
                                 <TableCell align="right">Delete</TableCell>
                             </TableRow>
@@ -81,6 +84,7 @@ class AdminRentalList extends Component {
                                         <TableCell align="right">{row.returnDate}</TableCell>
                                         <TableCell align="right">{row.machine.name}</TableCell>
                                         <TableCell align="right">{row.customer.login}</TableCell>
+                                        <TableCell align="right">{row.machine.price*(1+this.date_diff_indays(row.rentalDate, row.returnDate))}€</TableCell>
                                         <TableCell align="right">
                                             <Button variant="contained" color="secondary"
                                                     onClick={() => this.setState(this.state.updateRentals === row.id ? {updateRentals: 0} : {updateRentals : row.id})}>
@@ -98,7 +102,7 @@ class AdminRentalList extends Component {
                                 {this.state.updateRentals === row.id
                                     ?<TableRow>
                                         <TableCell colSpan={6}>
-                                            <UpdateRental rental={{id: row.id, description: row.description, rentalDate: row.rentalDate, returnDate: row.returnDate}}/>
+                                            <UpdateRental reload={this.refreshRentals()} rental={{id: row.id, description: row.description, rentalDate: row.rentalDate, returnDate: row.returnDate}}/>
                                         </TableCell>
                                     </TableRow>
                                     : null }

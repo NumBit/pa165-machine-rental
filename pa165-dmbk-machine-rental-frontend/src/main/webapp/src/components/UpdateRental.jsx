@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -8,7 +8,6 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import RentalDataService from "./RentalDataService";
 import Alert from "@material-ui/lab/Alert";
-import {useHistory} from "react-router";
 
 let RentalUpdateSchema = yup.object().shape({
     id:
@@ -51,7 +50,6 @@ const useStyles = makeStyles(theme => ({
 
 export const UpdateRental = ({rental, reload})=> {
     const classes = useStyles();
-    const history = useHistory();
     const [updatingResponse, setUpdatingResponse] = useState(0);
 
     const redirectBackToList = (success) => {
