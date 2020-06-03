@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.dmbk.machinerental.service;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.repository.RentalRepository;
-import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +37,38 @@ public class RentalServiceImpl implements RentalService{
     }
 
     @Override
-    public void updateRental(Rental rental) {
-        exceptionCatcher(() -> rentalRepository.save(rental));
+    public Long updateRental(Rental rental) {
+        var originalRental = rentalRepository.findById(rental.getId());
+        if(originalRental.isEmpty()) {
+            return -2L;
+        }
+        rental.setMachine(originalRental.get().getMachine());
+        rental.setCustomer(originalRental.get().getCustomer());
+        var availabilityOfMachine = checkAvailabilityForRent(rental.getMachine().getId(), rental.getRentalDate(), rental.getReturnDate());
+
+        if(!availabilityOfMachine.get()) {
+            var rentalSelfBlock = true;
+            var returnSelfBlock = true;
+
+            var rentalDateRentals = rentalRepository.findAllByRentalDateBetweenAndMachineId(rental.getRentalDate(), rental.getReturnDate(), rental.getMachine().getId());
+            var returnDateRentals = rentalRepository.findAllByReturnDateBetweenAndMachineId(rental.getRentalDate(), rental.getReturnDate(), rental.getMachine().getId());
+
+            if(rentalDateRentals.size() > 1) {
+                rentalSelfBlock = false;
+            } else if (rentalDateRentals.size() == 1) {
+                rentalSelfBlock = rentalDateRentals.get(0).getId().equals(rental.getId());
+            }
+            if(returnDateRentals.size() > 1) {
+                returnSelfBlock = false;
+            } else if (returnDateRentals.size() == 1) {
+                returnSelfBlock = returnDateRentals.get(0).getId().equals(rental.getId());
+            }
+            if(!rentalSelfBlock || !returnSelfBlock) {
+                return -1L;
+            }
+        }
+
+        return exceptionCatcher(() -> rentalRepository.save(rental)).getId();
     }
 
     @Override

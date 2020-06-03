@@ -4,14 +4,9 @@ import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.RentalFacade;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalCreateDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
-import cz.muni.fi.pa165.dmbk.machinerental.service.UserService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.BeanMappingService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalService;
-import cz.muni.fi.pa165.dmbk.machinerental.service.CustomDataAccessException;
-import cz.muni.fi.pa165.dmbk.machinerental.service.RentalServiceImpl;
+import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -36,6 +31,11 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public Long createRental(RentalCreateDto rental) {
         return rentalService.createRental(beanMappingService.mapTo(rental, Rental.class));
+    }
+
+    @Override
+    public Long updateRental(RentalUpdateDto rental) {
+        return rentalService.updateRental(beanMappingService.mapTo(rental, Rental.class));
     }
 
     @Override

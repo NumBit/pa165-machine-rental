@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dmbk.machinerental.service.rental;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.Machine;
+import cz.muni.fi.pa165.dmbk.machinerental.dao.machine.MachineRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.repository.RentalRepository;
 import cz.muni.fi.pa165.dmbk.machinerental.dao.user.LegalForm;
@@ -32,6 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class RentalServiceTest {
 
     @MockBean private RentalRepository rentalRepository;
+    @MockBean private MachineRepository machineRepository;
     @Autowired private RentalService rentalService;
 
     private Rental rental;
@@ -52,6 +54,8 @@ public class RentalServiceTest {
     public void createRental(){
         when(rentalRepository.saveAndFlush(any(Rental.class)))
                 .thenReturn(rental);
+        when(machineRepository.findById(1L))
+                .thenReturn(Optional.of(getMachineEntity(1L)));
         var rentalId = rentalService.createRental(rental);
         Assert.assertNotNull(rentalId);
         Assert.assertEquals(rentalId, rental.getId());
@@ -180,6 +184,8 @@ public class RentalServiceTest {
                 .thenReturn(List.of());
 
         when(rentalRepository.findAllByMachineId(2L)).thenReturn(List.of());
+        when(machineRepository.findById(1L))
+                .thenReturn(Optional.of(getMachineEntity(1L)));
         when(rentalRepository.findAllByMachineId(1L)).thenReturn(List.of(rental));
         var foundEmpty = rentalService.checkAvailabilityForRent(2L, dateFrom, dateTo);
         Assert.assertTrue(foundEmpty.isEmpty());

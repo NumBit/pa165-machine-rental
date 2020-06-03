@@ -11,6 +11,7 @@ import * as yup from "yup";
 import RentalDataService from "./RentalDataService";
 import MenuItem from "@material-ui/core/MenuItem";
 import Alert from "@material-ui/lab/Alert";
+import {useHistory} from "react-router";
 
 
 let RentalSchema = yup.object().shape({
@@ -57,8 +58,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export const AddRentalAdmin = () => {
+export const AddRentalAdmin = ()=> {
     const classes = useStyles();
+    const history = useHistory();
     const [creatingResponse, setCreatingResponse] = useState(0);
     const [machines, setMachines] = useState([]);
     const [customers,setCustomers] = useState([]);
@@ -77,6 +79,11 @@ export const AddRentalAdmin = () => {
         RentalDataService.getAllCustomers().then(response => setCustomers(response.data))
     };
 
+    const redirectBackToList = (success) => {
+        if(success > 0) {
+            history.push("/rentals");
+        }
+    };
 
     return(
         <Container component="main" maxWidth="xs">
@@ -94,7 +101,7 @@ export const AddRentalAdmin = () => {
                     }}
                     validationSchema={RentalSchema}
                     onSubmit={values => {
-                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, values.machine, values.customer).then(response => {setCreatingResponse(response.data)})}}
+                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, values.machine, values.customer).then(response => {setCreatingResponse(response.data); redirectBackToList(response.data)})}}
                 >
 
                     {({errors, handleChange, touched }) => (

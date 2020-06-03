@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.dmbk.machinerental.service;
 
 import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
-import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,8 +22,9 @@ public interface RentalService {
     /**
      * Update specified rental
      * @param rental updated rental
+     * @return Id of updated entity -1 if machine is not available in selected dates -2 if rental does not exists
      */
-    void updateRental(Rental rental);
+    Long updateRental(Rental rental);
 
     /**
      * Find rentals by Id

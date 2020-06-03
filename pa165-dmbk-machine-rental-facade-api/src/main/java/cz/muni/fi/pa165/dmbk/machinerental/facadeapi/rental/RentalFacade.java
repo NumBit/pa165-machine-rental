@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental;
 
-import cz.muni.fi.pa165.dmbk.machinerental.dao.rental.model.Rental;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalCreateDto;
 import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalDto;
+import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.rental.dto.RentalUpdateDto;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -21,6 +21,11 @@ public interface RentalFacade {
      */
     Long createRental(RentalCreateDto rental);
 
+    /** Update rental
+     * @param rental entity to update
+     * @return Id of updated entity -1 if machine is not available in selected dates -2 if rental does not exists
+     */
+    Long updateRental(RentalUpdateDto rental);
     /**
      * Find rentals by Id
      * @param id id of rental
