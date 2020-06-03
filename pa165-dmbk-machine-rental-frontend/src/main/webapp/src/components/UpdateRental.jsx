@@ -49,14 +49,14 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export const UpdateRental = ({rental})=> {
+export const UpdateRental = ({rental, reload})=> {
     const classes = useStyles();
     const history = useHistory();
     const [updatingResponse, setUpdatingResponse] = useState(0);
 
     const redirectBackToList = (success) => {
         if(success > 0) {
-            window.location.reload();
+            reload();
         }
     };
 

@@ -101,7 +101,7 @@ class RentalsList extends Component {
                                     {this.state.updateRentals === row.id
                                         ?<TableRow>
                                             <TableCell colSpan={6}>
-                                                <UpdateRental rental={{id: row.id, description: row.description, rentalDate: row.rentalDate, returnDate: row.returnDate}}/>
+                                                <UpdateRental reload={this.refreshRentals()} rental={{id: row.id, description: row.description, rentalDate: row.rentalDate, returnDate: row.returnDate}}/>
                                             </TableCell>
                                         </TableRow>
                                         : null }
