@@ -5,9 +5,8 @@ import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import {Paper, TableRow, TableCell, TableBody} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import TablePagination from "@material-ui/core/TablePagination";
+import {UpdateRental} from "./UpdateRental";
 
 
 class AdminRentalList extends Component {
@@ -15,21 +14,11 @@ class AdminRentalList extends Component {
         super(props);
         this.state = {
             rentals: [],
-            machines: [],
-            customers: [],
-            rentalDate: "2020-01-01",
-            returnDate: "2020-01-01",
-            machine: {},
-            customer: {},
-            description: "",
             page: 0,
             rowsPerPage: 10,
+            updateRentals: 0
+
         };
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleRentalChange = this.handleRentalChange.bind(this);
-        this.handleMachineChange = this.handleMachineChange.bind(this);
-        this.handleCustomerChange = this.handleCustomerChange.bind(this);
-        this.handleReturnChange = this.handleReturnChange.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     }
@@ -56,102 +45,19 @@ class AdminRentalList extends Component {
         this.setState({page: 0})
     };
 
-    handleDescriptionChange(event) {
-        this.setState({description: event.target.value});
-    }
-    handleRentalChange(event) {
-        this.setState({rentalDate: event.target.value});
-    }
-    handleReturnChange(event) {
-        this.setState({returnDate: event.target.value});
-    }
-    handleMachineChange(event) {
-        this.setState({machine: event.target.value});
-    }
-    handleCustomerChange(event) {
-        this.setState({customer: event.target.value});
-    }
-
-    createRental(description, rentalDate, returnDate, machine, user) {
-        RentalDataService.createRental(description, rentalDate, returnDate, machine, user).then(()=> this.refreshRentals());
-    }
-
-
     componentDidMount() {
         RentalDataService.getAllRentals().then(response => this.setState({rentals: response.data}));
-        RentalDataService.getAllMachines().then(response => this.setState({machines: response.data}));
-        RentalDataService.getAllCustomers().then(response => this.setState({customers: response.data}))
     }
 
+    date_diff_indays(date1, date2) {
+        let dt1 = new Date(date1);
+        let dt2 = new Date(date2);
+        return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+    };
 
     render(){
         return(
             <div>
-                <form noValidate autoComplete="off">
-                    <div>
-                        <TextField required label="Description"  value={this.state.description} onChange={this.handleDescriptionChange} />
-                        <TextField
-                            id="date"
-                            label="Rental Date"
-                            type="date"
-                            value={this.state.rentalDate}
-                            onChange={this.handleRentalChange}
-                            defaultValue="2020-01-01"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-
-                        <TextField
-                            id="date"
-                            label="Return Date"
-                            type="date"
-                            value={this.state.returnDate}
-                            onChange={this.handleReturnChange}
-                            defaultValue="2020-01-01"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-
-                        <TextField
-                            select
-                            label="Machine"
-                            value={this.state.machine}
-                            onChange={this.handleMachineChange}
-                            defaultValue={this.state.machines[0]}
-                            helperText="Machine to rent"
-                            style={{minWidth:200}}
-                        >
-                            {this.state.machines.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {option.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            select
-                            label="Customer"
-                            value={this.state.customer}
-                            onChange={this.handleCustomerChange}
-                            defaultValue={this.state.customers[0]}
-                            helperText="Renting customer"
-                            style={{minWidth:200}}
-
-                        >
-                            {this.state.customers.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {option.login}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-
-
-                    </div>
-                    <Button variant="contained" color="primary" style={{marginBottom: 10}} onClick={() => this.createRental(this.state.description, this.state.rentalDate, this.state.returnDate, this.state.machine, this.state.customer)}>
-                        Create Rental
-                    </Button>
-                </form>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table">
                         <TableHead>
@@ -161,12 +67,15 @@ class AdminRentalList extends Component {
                                 <TableCell align="right">Return Date</TableCell>
                                 <TableCell align="right">Machine</TableCell>
                                 <TableCell align="right">Customer</TableCell>
+                                <TableCell align="right">Price</TableCell>
+                                <TableCell align="right">Edit</TableCell>
                                 <TableCell align="right">Delete</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.rentals.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => {
                                 return (
+                                    <>
                                     <TableRow key={row.name}>
                                         <TableCell component="th" scope="row">
                                             {row.description}
@@ -175,6 +84,14 @@ class AdminRentalList extends Component {
                                         <TableCell align="right">{row.returnDate}</TableCell>
                                         <TableCell align="right">{row.machine.name}</TableCell>
                                         <TableCell align="right">{row.customer.login}</TableCell>
+                                        <TableCell align="right">{row.machine.price*(1+this.date_diff_indays(row.rentalDate, row.returnDate))}€</TableCell>
+                                        <TableCell align="right">
+                                            <Button variant="contained" color="secondary"
+                                                    onClick={() => this.setState(this.state.updateRentals === row.id ? {updateRentals: 0} : {updateRentals : row.id})}>
+
+                                                Edit
+                                            </Button>
+                                        </TableCell>
                                         <TableCell align="right">
                                             <Button variant="contained" color="secondary"
                                                     onClick={() => this.deleteRental(row.id)}>
@@ -182,6 +99,14 @@ class AdminRentalList extends Component {
                                             </Button>
                                         </TableCell>
                                     </TableRow>
+                                {this.state.updateRentals === row.id
+                                    ?<TableRow>
+                                        <TableCell colSpan={6}>
+                                            <UpdateRental reload={this.refreshRentals()} rental={{id: row.id, description: row.description, rentalDate: row.rentalDate, returnDate: row.returnDate}}/>
+                                        </TableCell>
+                                    </TableRow>
+                                    : null }
+                                    </>
                                 );
                             })}
                         </TableBody>
