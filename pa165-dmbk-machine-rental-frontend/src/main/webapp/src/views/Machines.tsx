@@ -15,6 +15,7 @@ import {
 import CreateMachineForm from "../components/CreateMachineForm";
 import TextField from "@material-ui/core/TextField";
 import {Alert} from "@material-ui/lab";
+import * as yup from "yup";
 
 /**
  * Machine View with pagination
@@ -64,7 +65,7 @@ const table: Row[] = [
     },
     {
         id: 'price',
-        label: '€',
+        label: '€/day',
         minWidth: 50,
         align: 'right',
     }
@@ -134,6 +135,21 @@ export default function Machines() {
         }
     };
 
+    //TODO
+    const handleEdit = (itemId: number) => {
+        return fetch('/pa165/rest/machine/' + itemId, {
+            method: 'delete'
+        }).then(() => fetchAll().then());
+    };
+
+    //TODO
+    const handleRent = (itemId: number) => {
+        return fetch('/pa165/rest/machine/' + itemId, {
+            method: 'delete'
+        }).then(() => fetchAll().then());
+    };
+
+
     const handleDelete = (itemId: number) => {
         return fetch('/pa165/rest/machine/' + itemId, {
             method: 'delete'
@@ -177,9 +193,9 @@ export default function Machines() {
                                     {table.label}
                                 </TableCell>
                             ))}
-                            {isAdmin(user) ? <TableCell align="right" style={{minWidth: 50}}>
+                            <TableCell align="right" style={{minWidth: 50}}>
                                 Actions
-                            </TableCell> : ""}
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -196,10 +212,14 @@ export default function Machines() {
                                             </TableCell>
                                         );
                                     })}
-
-                                    {isAdmin(user) ? <TableCell align="right">
-                                        <Button onClick={() => handleDelete(row.id)}>Delete</Button>
-                                    </TableCell> : ""}
+                                    <TableCell align="right">
+                                    {isAdmin(user) ?
+                                        <>
+                                        <Button variant="contained" color="primary" onClick={() => handleEdit(row.id)}>EDIT</Button>
+                                        <Button variant="contained" color="secondary" onClick={() => handleDelete(row.id)}>X</Button>
+                                        </>
+                                     : <Button variant="contained" color="primary" onClick={() => handleRent(row.id)}>RENT</Button>}
+                                    </TableCell>
                                 </TableRow>
                             );
                         })
