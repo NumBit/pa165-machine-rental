@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import * as yup from "yup";
 import {Form, Formik} from "formik";
+import {Machine} from "../views/Machines";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -13,10 +14,17 @@ const useStyles = makeStyles((theme: Theme) =>
                 width: '25ch',
             },
         },
+        paper: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
+        },
     }),
 );
 
 let MachineSchema = yup.object().shape({
+    id:
+        yup.number(),
     name:
         yup.string()
             .required("Required")
@@ -36,15 +44,12 @@ let MachineSchema = yup.object().shape({
             .integer("Not valid number")
 });
 
-export default function EditMachineForm({setData}: any) {
+export default function EditMachineForm(setData: any, machine: Machine) {
     const classes = useStyles();
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [manufacturer, setManufacturer] = useState("");
-    const [price, setPrice] = useState(0);
 
-    function handleSubmit(name: string, description : string, manufacturer: string, price: number) {
+    function handleEditSubmit(id: number, name: string, description: string, manufacturer: string, price: number) {
         const formData = {
+            id: id,
             name: name,
             description: description,
             manufacturer: manufacturer,
@@ -52,12 +57,12 @@ export default function EditMachineForm({setData}: any) {
         };
 
         const data = new FormData();
-        data.append( "json", JSON.stringify(formData) );
+        data.append("json", JSON.stringify(formData));
 
-        fetch('/pa165/rest/machine/', {
+        fetch('/pa165/rest/machine/update/', {
             method: 'post',
             credentials: 'include',
-            headers: {'Content-Type':'application/json'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData)
         }).then(() => refreshAll().then()).catch();
     };
@@ -69,79 +74,81 @@ export default function EditMachineForm({setData}: any) {
             .catch(error => setData({status: 'error', error}));
     }
 
-    const handleSetChange = (event: any) => {
-        setName(event.target.value);
-        setDescription(event.target.value);
-        setManufacturer(event.target.value);
-        setPrice(event.target.value);
-    };
-
     return (
-        <Formik validationSchema={MachineSchema}
-    initialValues={{
-        name: "",
-            manufacturer: "",
-            description: "",
-            price: 0,}}
-    onSubmit={values => {handleSubmit(values.name, values.description, values.manufacturer, values.price)}}>
-    {({errors, handleChange, touched }) => (
-        <Form className={classes.root}>
-        <div>
-            <TextField
-                error={Boolean(errors.description) && touched.description}
-        name="name"
-        label="Name"
-        onChange={handleChange}
-        variant="outlined"
-        helperText=
-            {errors.name && touched.name
-                    ? errors.name : null}
-        />
-        <TextField
-        error={Boolean(errors.description) && touched.description}
-        name="manufacturer"
-        label="Manufacturer"
-        onChange={handleChange}
-        variant="outlined"
-        helperText=
-            {errors.manufacturer && touched.manufacturer
-                    ? errors.manufacturer : null}
-        />
-        <TextField
-        error={Boolean(errors.description) && touched.description}
-        name="description"
-        label="Description"
-        onChange={handleChange}
-        variant="outlined"helperText=
-        {errors.description && touched.description
-                ? errors.description : null}
+        <div className={classes.paper}>
+            <Formik validationSchema={MachineSchema}
+                    initialValues={{
+                        id: machine.id,
+                        name: machine.name,
+                        manufacturer: machine.manufacturer,
+                        description: machine.description,
+                        price: machine.price,
+                    }}
+                    onSubmit={values => {
+                        handleEditSubmit(values.id, values.name, values.description, values.manufacturer, values.price)
+                    }}>
+                {({errors, handleChange, touched, values}) => (
+                    <Form className={classes.root}>
+                        <div>
+                            <TextField
+                                error={Boolean(errors.name) && touched.name}
+                                name="name"
+                                label="Name"
+                                onChange={handleChange}
+                                value={values.name}
+                                variant="outlined"
+                                helperText=
+                                    {errors.name && touched.name
+                                        ? errors.name : null}
+                            />
+                            <TextField
+                                error={Boolean(errors.manufacturer) && touched.manufacturer}
+                                name="manufacturer"
+                                label="Manufacturer"
+                                onChange={handleChange}
+                                value={values.manufacturer}
+                                variant="outlined"
+                                helperText=
+                                    {errors.manufacturer && touched.manufacturer
+                                        ? errors.manufacturer : null}
+                            />
+                            <TextField
+                                error={Boolean(errors.description) && touched.description}
+                                name="description"
+                                label="Description"
+                                onChange={handleChange}
+                                value={values.description}
+                                variant="outlined" helperText=
+                                    {errors.description && touched.description
+                                        ? errors.description : null}
 
-        />
-        <TextField
-        error={Boolean(errors.description) && touched.description}
-        name="price"
-        label="Price"
-        type="number"
-        onChange={handleChange}
-        defaultValue="0"
-        InputLabelProps={{
-        shrink: true,
-    }}
-        variant="outlined"
-        helperText=
-            {errors.price && touched.price
-                    ? errors.price : null}
-        />
-        <Button
-        color="primary"
-        variant="contained"
-        type="submit"
-        style={{ marginTop: "15px" }}
-    >
-        Create
-        </Button>
+                            />
+                            <TextField
+                                error={Boolean(errors.price) && touched.price}
+                                name="price"
+                                label="Price"
+                                type="number"
+                                onChange={handleChange}
+                                value={values.price}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                helperText=
+                                    {errors.price && touched.price
+                                        ? errors.price : null}
+                            />
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                type="submit"
+                                style={{marginTop: "15px"}}
+                            >
+                                Edit
+                            </Button>
+                        </div>
+                    </Form>)}
+            </Formik>
         </div>
-        </Form>)}
-        </Formik>
     );
-    }
+}

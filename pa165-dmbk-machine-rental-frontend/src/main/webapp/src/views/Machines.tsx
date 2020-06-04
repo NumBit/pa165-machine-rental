@@ -16,6 +16,7 @@ import CreateMachineForm from "../components/CreateMachineForm";
 import TextField from "@material-ui/core/TextField";
 import {Alert} from "@material-ui/lab";
 import * as yup from "yup";
+import EditMachineForm from "../components/EditMachineForm";
 
 /**
  * Machine View with pagination
@@ -106,6 +107,7 @@ export type MachineService<T> =
 export default function Machines() {
     const {user} = useContext(GlobalContext);
     const classes = useStyles();
+    const [item, setItem] = React.useState(0);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [nameSearch, setNameSearch] = useState("");
@@ -138,8 +140,8 @@ export default function Machines() {
     //TODO
     const handleEdit = (itemId: number) => {
         return fetch('/pa165/rest/machine/' + itemId, {
-            method: 'delete'
-        }).then(() => fetchAll().then());
+            method: 'get'
+        }).then();
     };
 
     //TODO
@@ -158,6 +160,15 @@ export default function Machines() {
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
+    };
+
+    const handleItemEdit = (itemId: number) => {
+        if(itemId === item){
+            setItem(0);
+        }
+        else {
+            setItem(itemId);
+        }
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,6 +214,7 @@ export default function Machines() {
                         {result.status === 'loaded' &&
                         result.payload.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
+                                <>
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
                                     {table.map((table) => {
                                         const value = row[table.id];
@@ -212,15 +224,21 @@ export default function Machines() {
                                             </TableCell>
                                         );
                                     })}
+
                                     <TableCell align="right">
                                     {isAdmin(user) ?
                                         <>
-                                        <Button variant="contained" color="primary" onClick={() => handleEdit(row.id)}>EDIT</Button>
+                                        <Button variant="contained" color="primary" onClick={() => handleItemEdit(row.id)}>EDIT</Button>
                                         <Button variant="contained" color="secondary" onClick={() => handleDelete(row.id)}>X</Button>
                                         </>
                                      : <Button variant="contained" color="primary" onClick={() => handleRent(row.id)}>RENT</Button>}
                                     </TableCell>
                                 </TableRow>
+                                {item === row.id ?
+                                    <TableRow><EditMachineForm setData={setResult} machine={row}/></TableRow>
+                                    : ""}
+
+                            </>
                             );
                         })
                         }

@@ -38,10 +38,6 @@ let MachineSchema = yup.object().shape({
 
 export default function CreateMachineForm({setData}: any) {
     const classes = useStyles();
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [manufacturer, setManufacturer] = useState("");
-    const [price, setPrice] = useState(0);
 
     function handleSubmit(name: string, description : string, manufacturer: string, price: number) {
         const formData = {
@@ -69,13 +65,6 @@ export default function CreateMachineForm({setData}: any) {
             .catch(error => setData({status: 'error', error}));
     }
 
-    const handleSetChange = (event: any) => {
-        setName(event.target.value);
-        setDescription(event.target.value);
-        setManufacturer(event.target.value);
-        setPrice(event.target.value);
-    };
-
     return (
         <Formik validationSchema={MachineSchema}
                 initialValues={{
@@ -88,7 +77,7 @@ export default function CreateMachineForm({setData}: any) {
             <Form className={classes.root}>
             <div>
                 <TextField
-                    error={Boolean(errors.description) && touched.description}
+                    error={Boolean(errors.name) && touched.name}
                     name="name"
                     label="Name"
                     onChange={handleChange}
@@ -98,7 +87,7 @@ export default function CreateMachineForm({setData}: any) {
                             ? errors.name : null}
                 />
                 <TextField
-                    error={Boolean(errors.description) && touched.description}
+                    error={Boolean(errors.manufacturer) && touched.manufacturer}
                     name="manufacturer"
                     label="Manufacturer"
                     onChange={handleChange}
@@ -118,7 +107,7 @@ export default function CreateMachineForm({setData}: any) {
 
                 />
                 <TextField
-                    error={Boolean(errors.description) && touched.description}
+                    error={Boolean(errors.price) && touched.price}
                     name="price"
                     label="Price"
                     type="number"
