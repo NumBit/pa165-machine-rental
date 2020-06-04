@@ -2,13 +2,8 @@ import React, { useContext } from "react";
 import { GlobalContext, isAdmin } from "../context/GlobalState";
 import RentalsList from "../components/RentalsList";
 import AdminRentalList from "../components/AdminRentalList";
-import MachineAvaibility from "../components/MachineAvaibility";
-import {AddRental} from "../components/AddRental";
-import {MachineAvailability} from "../components/MachineAvailability";
-import {AddRentalAdmin} from "../components/AddRentalAdmin";
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import TableContainer from "@material-ui/core/TableContainer";
 
 const Rentals = () => {
   const { user } = useContext(GlobalContext);

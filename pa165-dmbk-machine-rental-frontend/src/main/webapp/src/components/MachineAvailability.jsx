@@ -51,7 +51,6 @@ export const MachineAvailability = () => {
     const classes = useStyles();
     const [machines, setMachines] = useState([]);
     const [availability, setAvailability] = useState(false);
-    const [checked, setChecked] = useState(false);
 
     useEffect(()=>{
         getAllMachines();
@@ -75,7 +74,7 @@ export const MachineAvailability = () => {
                     }}
                     validationSchema={AvailabilitySchema}
                     onSubmit={values => {
-                        RentalDataService.checkMachineAvailability(values.machine.id, values.rentalDate, values.returnDate).then(response => {setAvailability(response.data); setChecked(true)})}}
+                        RentalDataService.checkMachineAvailability(values.machine.id, values.rentalDate, values.returnDate).then(response => {setAvailability(response.data)})}}
                     >
 
                     {({errors, handleChange, touched }) => (
