@@ -15,8 +15,8 @@ import {
 import CreateMachineForm from "../components/CreateMachineForm";
 import TextField from "@material-ui/core/TextField";
 import {Alert} from "@material-ui/lab";
-import * as yup from "yup";
 import EditMachineForm from "../components/EditMachineForm";
+import {Link} from "react-router-dom";
 
 /**
  * Machine View with pagination
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 margin: theme.spacing(1),
                 width: '25ch',
             },
-            '.MuiDivider-root':{
+            '.MuiDivider-root': {
                 margin: '15px 0 15px 0 !important'
             }
         },
@@ -107,7 +107,8 @@ export type MachineService<T> =
 export default function Machines() {
     const {user} = useContext(GlobalContext);
     const classes = useStyles();
-    const [item, setItem] = React.useState(0);
+    const [itemEdited, setItemEdited] = React.useState(0);
+    const [deleteAlert, setDeleteAlert] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [nameSearch, setNameSearch] = useState("");
@@ -127,47 +128,46 @@ export default function Machines() {
 
     const handleSearchNameChange = (event: any) => {
         setNameSearch(event.target.value);
-        if (nameSearch !== ""){
+        if (nameSearch !== "") {
             fetch('/pa165/rest/machine/namelike/' + nameSearch)
                 .then(res => res.json())
                 .then(res => setResult({status: 'loaded', payload: res}))
                 .catch(error => setResult({status: 'error', error}));
-        }else {
+        } else {
             fetchAll().then();
         }
     };
 
-    //TODO
-    const handleEdit = (itemId: number) => {
-        return fetch('/pa165/rest/machine/' + itemId, {
-            method: 'get'
-        }).then();
-    };
-
-    //TODO
-    const handleRent = (itemId: number) => {
-        return fetch('/pa165/rest/machine/' + itemId, {
-            method: 'delete'
-        }).then(() => fetchAll().then());
-    };
-
-
     const handleDelete = (itemId: number) => {
+        let resStatus = 0
         return fetch('/pa165/rest/machine/' + itemId, {
             method: 'delete'
-        }).then(() => fetchAll().then());
+        }).then((res) => resStatus = res.status).then(() => {
+            switch (resStatus) {
+                case 304:
+                    handleDeleteAlert(true);
+                    break;
+                default:
+                    handleDeleteAlert(false);
+                    fetchAll().then();
+                    break;
+            }
+        })
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
 
+    const handleDeleteAlert = (state: boolean) => {
+        setDeleteAlert(state);
+    };
+
     const handleItemEdit = (itemId: number) => {
-        if(itemId === item){
-            setItem(0);
-        }
-        else {
-            setItem(itemId);
+        if (itemId === itemEdited) {
+            setItemEdited(0);
+        } else {
+            setItemEdited(itemId);
         }
     };
 
@@ -180,17 +180,24 @@ export default function Machines() {
         <Paper className={classes.root} style={{width: "80%"}}>
             {isAdmin(user) ?
                 <CreateMachineForm
-                setData={setResult}/>
+                    setData={setResult}/>
                 : ""}
-            <Divider />
-            <TextField id="outlined-search" label="Search field" type="search" onChange={handleSearchNameChange} variant="outlined" />
+            <Divider/>
+            <TextField id="outlined-search" label="Search field" type="search" onChange={handleSearchNameChange}
+                       variant="outlined"/>
             <Button color="primary"
                     variant="contained"
                     onClick={() => fetchAll()}
-                    style={{ marginTop: "15px" }}>
+                    style={{marginTop: "15px"}}>
                 Clean
             </Button>
             <Divider/>
+
+            {deleteAlert ?
+                <div><Alert severity="warning">Machine is used in other relations and will not be deleted.</Alert></div>
+                : ""}
+
+
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -210,40 +217,47 @@ export default function Machines() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {result.status === 'loading' && <div></div>}
+                        {result.status === 'loading' && <></>}
                         {result.status === 'loaded' &&
                         result.payload.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <>
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
-                                    {table.map((table) => {
-                                        const value = row[table.id];
-                                        return (
-                                            <TableCell key={table.id} align={table.align}>
-                                                {table.format && typeof value === 'number' ? table.format(value) : value}
-                                            </TableCell>
-                                        );
-                                    })}
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
+                                        {table.map((table) => {
+                                            const value = row[table.id];
+                                            return (
+                                                <TableCell key={table.id} align={table.align}>
+                                                    {table.format && typeof value === 'number' ? table.format(value) : value}
+                                                </TableCell>
+                                            );
+                                        })}
 
-                                    <TableCell align="right">
-                                    {isAdmin(user) ?
-                                        <>
-                                        <Button variant="contained" color="primary" onClick={() => handleItemEdit(row.id)}>EDIT</Button>
-                                        <Button variant="contained" color="secondary" onClick={() => handleDelete(row.id)}>X</Button>
-                                        </>
-                                     : <Button variant="contained" color="primary" onClick={() => handleRent(row.id)}>RENT</Button>}
-                                    </TableCell>
-                                </TableRow>
-                                {item === row.id ?
-                                    <TableRow><EditMachineForm setData={setResult} machine={row}/></TableRow>
-                                    : ""}
+                                        <TableCell align="right">
+                                            {isAdmin(user) ?
+                                                <>
+                                                    <Button variant="contained" color="primary"
+                                                            onClick={() => handleItemEdit(row.id)}>EDIT</Button>
+                                                    <Button variant="contained" color="secondary"
+                                                            onClick={() => handleDelete(row.id)}>X</Button>
+                                                </>
+                                                : <Link
+                                                    to={`/createRental/${row.id}`}>
+                                                    <Button variant="contained" color="primary">RENT</Button>
+                                                </Link>
+                                            }
+                                        </TableCell>
+                                    </TableRow>
+                                    {itemEdited === row.id ?
+                                        <TableRow><TableCell colSpan={5}><EditMachineForm machine={row}
+                                                                                          ref={fetchAll()}/></TableCell></TableRow>
+                                        : ""}
 
-                            </>
+                                </>
                             );
                         })
                         }
                         {result.status === 'error' && (
-                            <div></div>
+                            <></>
                         )}
 
                     </TableBody>

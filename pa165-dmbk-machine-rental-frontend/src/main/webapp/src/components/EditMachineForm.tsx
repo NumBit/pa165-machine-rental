@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
@@ -44,48 +44,36 @@ let MachineSchema = yup.object().shape({
             .integer("Not valid number")
 });
 
-export default function EditMachineForm(setData: any, machine: Machine) {
+type EditMachineProps = {
+    machine: Machine,
+    ref: any,
+}
+
+export default function EditMachineForm(props: EditMachineProps) {
     const classes = useStyles();
 
-    function handleEditSubmit(id: number, name: string, description: string, manufacturer: string, price: number) {
-        const formData = {
-            id: id,
-            name: name,
-            description: description,
-            manufacturer: manufacturer,
-            price: price
-        };
-
-        const data = new FormData();
-        data.append("json", JSON.stringify(formData));
+    function handleEditSubmit(machine: Machine) {
 
         fetch('/pa165/rest/machine/update/', {
             method: 'post',
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formData)
-        }).then(() => refreshAll().then()).catch();
-    };
-
-    function refreshAll() {
-        return fetch('/pa165/rest/machine/')
-            .then(res => res.json())
-            .then(res => setData({status: 'loaded', payload: res}))
-            .catch(error => setData({status: 'error', error}));
+            body: JSON.stringify(machine)
+        }).then().catch();
     }
 
     return (
         <div className={classes.paper}>
             <Formik validationSchema={MachineSchema}
                     initialValues={{
-                        id: machine.id,
-                        name: machine.name,
-                        manufacturer: machine.manufacturer,
-                        description: machine.description,
-                        price: machine.price,
+                        id: props.machine.id,
+                        name: props.machine.name,
+                        manufacturer: props.machine.manufacturer,
+                        description: props.machine.description,
+                        price: props.machine.price,
                     }}
                     onSubmit={values => {
-                        handleEditSubmit(values.id, values.name, values.description, values.manufacturer, values.price)
+                        handleEditSubmit(values); props.ref()
                     }}>
                 {({errors, handleChange, touched, values}) => (
                     <Form className={classes.root}>

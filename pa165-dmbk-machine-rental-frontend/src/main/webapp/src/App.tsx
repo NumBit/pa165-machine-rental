@@ -30,7 +30,7 @@ const App: React.FC = () => {
               <Route path="/machines" component={Machines} />
               <Route path="/rentals" component={Rentals} />
               <Route path="/profile" component={Profile} />
-              <Route path="/createRental" component={CreateRental} />
+              <Route path="/createRental/:machineId?" component={CreateRental} />
               <Route path="/updateRental" component={UpdateRental} />
               <Route path="/checkMachineAvailability" component={CheckMachineAvailability} />
               <PrivateRoute path="/revisions" component={Revisions} />

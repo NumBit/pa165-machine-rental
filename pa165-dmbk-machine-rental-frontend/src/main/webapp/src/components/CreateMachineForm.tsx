@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
@@ -56,7 +56,7 @@ export default function CreateMachineForm({setData}: any) {
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(formData)
         }).then(() => refreshAll().then()).catch();
-    };
+    }
 
     function refreshAll() {
         return fetch('/pa165/rest/machine/')
@@ -101,7 +101,7 @@ export default function CreateMachineForm({setData}: any) {
                     name="description"
                     label="Description"
                     onChange={handleChange}
-                    variant="outlined"helperText=
+                    variant="outlined" helperText=
                         {errors.description && touched.description
                             ? errors.description : null}
 

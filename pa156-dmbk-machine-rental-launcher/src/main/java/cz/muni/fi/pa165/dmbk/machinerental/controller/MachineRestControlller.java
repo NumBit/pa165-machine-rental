@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dmbk.machinerental.facadeapi.machine.model.MachineDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class MachineRestControlller {
 
     /**
      * Create machine
+     *
      * @param machineDto to be created
      * @return Long id of machine dto
      */
@@ -38,6 +40,7 @@ public class MachineRestControlller {
 
     /**
      * Find machine by id
+     *
      * @param id Long
      * @return machineDto
      */
@@ -48,6 +51,7 @@ public class MachineRestControlller {
 
     /**
      * Update machine by dto
+     *
      * @param machineDto machine dto
      * @return Long id as success
      */
@@ -58,17 +62,23 @@ public class MachineRestControlller {
 
     /**
      * Delete machine by id
+     *
      * @param id of machine to be deleted
      * @return Ok response
      */
     @DeleteMapping("${spring.rest-api.machinePath}/{id}")
     public ResponseEntity<?> deleteMachineById(@PathVariable Long id) {
-        machineFacade.deleteMachineById(id);
-        return ResponseEntity.ok().build();
+        try {
+            machineFacade.deleteMachineById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Machine is used in other relations. Can not delete.");
+        }
     }
 
     /**
      * Returns all machines
+     *
      * @return list collection of machines dto
      */
     @GetMapping("${spring.rest-api.machinePath}/")
@@ -78,6 +88,7 @@ public class MachineRestControlller {
 
     /**
      * Find by exact machine name
+     *
      * @param name to find machine
      * @return machine dto list
      */
@@ -88,6 +99,7 @@ public class MachineRestControlller {
 
     /**
      * Find machine by name like
+     *
      * @param name to find machine
      * @return machine dto collection
      */
@@ -98,6 +110,7 @@ public class MachineRestControlller {
 
     /**
      * Find by manufacturer name
+     *
      * @param manufacturer name
      * @return machine list
      */
@@ -108,6 +121,7 @@ public class MachineRestControlller {
 
     /**
      * Find by manufacturer name like
+     *
      * @param manufacturer name
      * @return machine list
      */
