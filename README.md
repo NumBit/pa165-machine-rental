@@ -1,4 +1,4 @@
-# Project deadline extended by 72h (20.05.2020 23:59) - due to workload
+# Project DMBK Machine rental
 
 ## For starting project you need run npm run buil in pa165-dmbk-machine-rental\pa165-dmbk-machine-rental-frontend\src\main\webapp
 
