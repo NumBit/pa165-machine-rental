@@ -26,12 +26,12 @@ password: password
 http://localhost:8080/pa165  
 
 ### Customer:  
-login: testuser  
-password: testuser  
+login: user1
+password: user1  
 
 ### Admin:   
-login: admin1  
-password: admin1  
+login: admin2  
+password: admin2 
 
 ## pa165-machine-rental
 see our Github wiki page for more information:
