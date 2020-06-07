@@ -106,8 +106,8 @@ const SideNavigation = () => {
 
     return (
         <div className={classes.drawer}>
-            {isAdmin(user) ? adminNavigation : customerNavigation}
-            {isUnauthenticated(user) ? "" : logoutChoice}
+            {isAdmin(user) ? adminNavigation : isUnauthenticated(user) ? null : customerNavigation}
+            {isUnauthenticated(user) ? null : logoutChoice}
         </div>
     );
 };
