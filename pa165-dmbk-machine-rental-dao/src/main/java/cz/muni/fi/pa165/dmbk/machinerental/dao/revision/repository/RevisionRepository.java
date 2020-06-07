@@ -14,13 +14,38 @@ import java.util.List;
 @Repository
 public interface RevisionRepository extends JpaRepository<Revision, Long> {
 
+    /**
+     * Find by machine ID
+     * @param machineId id of machine
+     * @return list of revisions
+     */
     List<Revision> findAllByMachineId(Long machineId);
 
+    /**
+     * Find by date
+     * @param revisionDate date
+     * @return list of revisions
+     */
     List<Revision> findAllByRevisionDate(LocalDate revisionDate);
 
+    /**
+     * Find by date after
+     * @param revisionDate date after
+     * @return list of revisions
+     */
     List<Revision> findAllByRevisionDateAfter(LocalDate revisionDate);
 
+    /**
+     * Find by date before
+     * @param revisionDate date before
+     * @return list of revisions
+     */
     List<Revision> findAllByRevisionDateBefore(LocalDate revisionDate);
 
+    /**
+     * Find by date between
+     * @param revisionDateFrom date from, revisionDateTo date to
+     * @return list of revisions
+     */
     List<Revision> findAllByRevisionDateBetween(LocalDate revisionDateFrom, LocalDate revisionDateTo);
 }
