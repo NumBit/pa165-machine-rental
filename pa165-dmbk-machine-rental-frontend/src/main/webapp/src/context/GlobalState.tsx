@@ -1,5 +1,6 @@
-import React, { createContext, useReducer } from "react";
-import AppReducer from "./AppReducer";
+import React, {createContext, useEffect, useReducer} from "react";
+import AppReducer from "./AppReducer";  
+import RentalDataService from "../components/RentalDataService";
 
 export interface Customer {
   type: string,
@@ -55,12 +56,26 @@ export const GlobalContext = createContext<ContextProps>(initialState);
 export const GlobalProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
+  const getAuthUser = () => {
+    RentalDataService.getAuthenticatedUser().then(response => {
+      if(response.status === 200){
+        switchRole(response.data);
+      } else {
+        switchRole({objectName: "Unauthenticated"});
+      }
+    })
+  };
+
   function switchRole(role: User) {
     dispatch({
       type: "SWITCH_ROLE",
       payload: role,
     });
   }
+
+  useEffect(()=>{
+    getAuthUser();
+      }, []);
 
   return (
     <GlobalContext.Provider
