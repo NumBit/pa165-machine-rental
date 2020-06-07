@@ -1,7 +1,5 @@
 # Project DMBK Machine rental
 
-## For starting project you need run npm run build in pa165-dmbk-machine-rental\pa165-dmbk-machine-rental-frontend\src\main\webapp
-
 ### start from intellij idea:
 run the main class ApplicationLauncher
 
@@ -30,8 +28,8 @@ login: user2
 password: user2  
 
 ### Admin:   
-login: admin1 
-password: admin1 
+login: admin1  
+password: admin1  
 
 ## pa165-machine-rental
 see our Github wiki page for more information:
