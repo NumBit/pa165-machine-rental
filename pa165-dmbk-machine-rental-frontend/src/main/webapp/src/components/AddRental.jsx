@@ -3,15 +3,16 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { Formik, Form } from "formik";
+import {Formik, Form} from "formik";
 import * as yup from "yup";
 import RentalDataService from "./RentalDataService";
 import MenuItem from "@material-ui/core/MenuItem";
 import Alert from "@material-ui/lab/Alert";
 import {useHistory} from "react-router";
+import {useParams} from "react-router-dom";
 
 
 let RentalSchema = yup.object().shape({
@@ -56,16 +57,19 @@ const useStyles = makeStyles(theme => ({
 
 
 export const AddRental = () => {
+    let {machineId} = useParams();
     const classes = useStyles();
     const history = useHistory();
     const [creatingResponse, setCreatingResponse] = useState(0);
     const [user, setUser] = useState({});
     const [machines, setMachines] = useState([]);
+    const [machine, setMachine] = useState({});
 
     useEffect(() => {
         if(machineId){
             getMachineById(machineId);
         }
+
         getAuthenticatedUser();
         getAllMachines();
     }, []);
@@ -79,13 +83,17 @@ export const AddRental = () => {
         RentalDataService.getAllMachines().then(response => setMachines(response.data))
     };
 
+    const getMachineById = (id) => {
+        RentalDataService.getMachineById(id).then(response => setMachine(response.data))
+    };
+
     const redirectBackToList = (success) => {
-        if(success > 0) {
+        if (success > 0) {
             history.push("/rentals");
         }
     };
 
-    return(
+    return (
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
@@ -93,22 +101,23 @@ export const AddRental = () => {
                 </Typography>
                 <Formik
                     initialValues={{
-                    customer: user,
-                    machine: null,
-                    description: "",
-                    rentalDate: "",
-                    returnDate: "",
-                }}
+                        customer: user,
+                        machine: machine,
+                        description: "",
+                        rentalDate: "",
+                        returnDate: "",
+                    }}
                     validationSchema={RentalSchema}
                     onSubmit={values => {
                         RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, machineId? machine : values.machine, user).then(response => {
+
                             setCreatingResponse(response.data);
                             redirectBackToList(response.data)
                         })
                     }}
                 >
 
-                    {({errors, handleChange, touched }) => (
+                    {({errors, handleChange, touched}) => (
                         <Form className={classes.form}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
@@ -118,7 +127,7 @@ export const AddRental = () => {
                                         name="description"
                                         label="Description"
                                         onChange={handleChange}
-                                        style={{minWidth:400}}
+                                        style={{minWidth: 400}}
                                         helperText=
                                             {errors.description && touched.description
                                                 ? errors.description : null}
@@ -132,7 +141,7 @@ export const AddRental = () => {
                                         label="Rental Date"
                                         type="date"
                                         onChange={handleChange}
-                                        style={{minWidth:400}}
+                                        style={{minWidth: 400}}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -149,7 +158,7 @@ export const AddRental = () => {
                                         label="Return Date"
                                         type="date"
                                         onChange={handleChange}
-                                        style={{minWidth:400}}
+                                        style={{minWidth: 400}}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -169,16 +178,18 @@ export const AddRental = () => {
                                         helperText=
                                             {errors.machine && touched.machine
                                                 ? errors.machine : "Select machine to rent"}
-                                        style={{minWidth:400}}
+                                        style={{minWidth: 400}}
                                     >
                                         {machines.map((option) => (
                                             <MenuItem key={option}
+
                                                       value={option}>
                                                 {option.name}
                                             </MenuItem>
                                         ))}
                                     </TextField>
                                 </Grid> : null}
+
                                 {(creatingResponse === -1) ?
                                     <Grid item xs={12}><Alert severity="error">Machine is not available in selected
                                         dates!</Alert> </Grid> : null}

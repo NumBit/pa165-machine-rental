@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
+import * as yup from "yup";
+import {Form, Formik} from "formik";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -14,17 +16,30 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+let MachineSchema = yup.object().shape({
+    name:
+        yup.string()
+            .required("Required")
+            .max(60, "Max 60 characters."),
+    manufacturer:
+        yup.string()
+            .required("Required")
+            .max(60, "Max 60 characters."),
+    description:
+        yup.string()
+            .required("Required")
+            .max(500, "Max 500 characters."),
+    price:
+        yup.number()
+            .required("Required")
+            .positive("Positive numbers only")
+            .integer("Not valid number")
+});
+
 export default function CreateMachineForm({setData}: any) {
     const classes = useStyles();
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [manufacturer, setManufacturer] = useState("");
-    const [price, setPrice] = useState(0);
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-
-
+    function handleSubmit(name: string, description : string, manufacturer: string, price: number) {
         const formData = {
             name: name,
             description: description,
@@ -41,7 +56,7 @@ export default function CreateMachineForm({setData}: any) {
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(formData)
         }).then(() => refreshAll().then()).catch();
-    };
+    }
 
     function refreshAll() {
         return fetch('/pa165/rest/machine/')
@@ -50,71 +65,72 @@ export default function CreateMachineForm({setData}: any) {
             .catch(error => setData({status: 'error', error}));
     }
 
-    const handleNameChange = (event: any) => {
-        setName(event.target.value);
-    };
-
-    const handleDescriptionChange = (event: any) => {
-        setDescription(event.target.value);
-    };
-
-    const handleManufacturerChange = (event: any) => {
-        setManufacturer(event.target.value);
-    };
-
-    const handlePriceChange = (event: any) => {
-        setPrice(event.target.value);
-    };
-
     return (
-        <form className={classes.root} noValidate autoComplete="off">
+        <Formik validationSchema={MachineSchema}
+                initialValues={{
+            name: "",
+            manufacturer: "",
+            description: "",
+            price: 0,}}
+                onSubmit={values => {handleSubmit(values.name, values.description, values.manufacturer, values.price)}}>
+            {({errors, handleChange, touched }) => (
+            <Form className={classes.root}>
             <div>
                 <TextField
-                    required
-                    id="name"
+                    error={Boolean(errors.name) && touched.name}
+                    name="name"
                     label="Name"
-                    defaultValue="Name"
-                    onChange={handleNameChange}
+                    onChange={handleChange}
                     variant="outlined"
+                    helperText=
+                        {errors.name && touched.name
+                            ? errors.name : null}
                 />
                 <TextField
-                    required
-                    id="description"
-                    label="Description"
-                    defaultValue="Description"
-                    onChange={handleDescriptionChange}
-                    variant="outlined"
-                />
-                <TextField
-                    required
-                    id="manufacturer"
+                    error={Boolean(errors.manufacturer) && touched.manufacturer}
+                    name="manufacturer"
                     label="Manufacturer"
-                    defaultValue="Manufacturer"
-                    onChange={handleManufacturerChange}
+                    onChange={handleChange}
                     variant="outlined"
+                    helperText=
+                        {errors.manufacturer && touched.manufacturer
+                            ? errors.manufacturer : null}
                 />
                 <TextField
-                    required
-                    id="price"
+                    error={Boolean(errors.description) && touched.description}
+                    name="description"
+                    label="Description"
+                    onChange={handleChange}
+                    variant="outlined" helperText=
+                        {errors.description && touched.description
+                            ? errors.description : null}
+
+                />
+                <TextField
+                    error={Boolean(errors.price) && touched.price}
+                    name="price"
                     label="Price"
                     type="number"
-                    onChange={handlePriceChange}
-                    defaultValue="1"
+                    onChange={handleChange}
+                    defaultValue="0"
                     InputLabelProps={{
                         shrink: true,
                     }}
                     variant="outlined"
+                    helperText=
+                        {errors.price && touched.price
+                            ? errors.price : null}
                 />
                 <Button
                     color="primary"
                     variant="contained"
                     type="submit"
-                    onClick={handleSubmit}
                     style={{ marginTop: "15px" }}
                 >
                     Create
                 </Button>
             </div>
-        </form>
+            </Form>)}
+        </Formik>
     );
 }

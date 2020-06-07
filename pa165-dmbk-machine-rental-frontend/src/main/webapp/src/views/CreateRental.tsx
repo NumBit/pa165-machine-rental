@@ -5,8 +5,8 @@ import {AddRentalAdmin} from "../components/AddRentalAdmin";
 
 const CreateRental = () => {
     const { user } = useContext(GlobalContext);
-    const customersView = <div><AddRental/></div>;
-    const adminsView = <div><AddRentalAdmin/></div>;
+    const customersView = <div><AddRental /></div>;
+    const adminsView = <div><AddRentalAdmin /></div>;
 
     return (
         <div>

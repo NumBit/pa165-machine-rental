@@ -21,7 +21,7 @@ import java.time.LocalTime;
 /**
  * Test revision entity and its repository
  *
- * @author Márius Molčány
+ * @author Márius Molčány - UČO: 456350 - Github: overlordsvk
  */
 
 @RunWith(SpringRunner.class)

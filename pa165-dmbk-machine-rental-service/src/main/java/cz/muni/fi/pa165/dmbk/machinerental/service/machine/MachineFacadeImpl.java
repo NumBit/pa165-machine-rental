@@ -69,7 +69,9 @@ public class MachineFacadeImpl implements MachineFacade {
     }
 
     @Override
-    public void deleteMachineById(Long id) {
+    public boolean deleteMachineById(Long id) {
         machineService.deleteMachineById(id);
+        var found = machineService.findById(id);
+        return found.isEmpty();
     }
 }

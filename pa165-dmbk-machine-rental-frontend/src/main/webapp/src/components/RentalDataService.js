@@ -10,6 +10,10 @@ class RentalDataService {
     getAllMachines() {
         return axios.get("http://localhost:8080/pa165/rest/machine/")
     }
+    getMachineById(id) {
+        return axios.get("http://localhost:8080/pa165/rest/machine/" + id)
+    }
+
     getAllCustomers() {
         return axios.get("http://localhost:8080/pa165/rest/admin/allCustomers")
     }

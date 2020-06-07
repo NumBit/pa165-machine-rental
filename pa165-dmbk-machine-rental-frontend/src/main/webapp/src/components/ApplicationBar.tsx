@@ -26,7 +26,11 @@ const ApplicationBar = () => {
         <Typography variant="h6" className={classes.title}>
           DMBK machine rental
         </Typography>
-        <Button className={classes.button} variant="contained" component={Link} to='/'>Login</Button>
+        {isUnauthenticated(user)
+            ? <Button className={classes.button} variant="contained" component={Link} to='/'>Login</Button>
+            : ""
+        }
+
         <Typography variant="body1">
           {isUnauthenticated(user)
               ? "Not signed in"

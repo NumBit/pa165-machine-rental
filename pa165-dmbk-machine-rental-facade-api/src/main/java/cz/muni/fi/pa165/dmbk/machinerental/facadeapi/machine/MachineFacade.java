@@ -22,5 +22,5 @@ public interface MachineFacade {
     List<MachineDto> findByNameLike(String name);
     List<MachineDto> findByManufacturer(String manufacturer);
     List<MachineDto> findByManufacturerLike(String manufacturer);
-    void deleteMachineById(Long id);
+    boolean deleteMachineById(Long id);
 }
