@@ -95,16 +95,12 @@ const SideNavigation = () => {
     </>
   );
 
-  return (
-    <div className={classes.drawer}>
-      {isAdmin(user) ? adminNavigation : customerNavigation}
-      <Divider />
-        <ListItem button>
-          <Button className={classes.button} variant="contained"
-                  component={Link} to='/' onClick={() => handleLogout()}>Logout</Button>
-        </ListItem>
-    </div>
-  );
+    return (
+        <div className={classes.drawer}>
+            {isAdmin(user) ? adminNavigation : isUnauthenticated(user) ? null : customerNavigation}
+            {isUnauthenticated(user) ? null : logoutChoice}
+        </div>
+    );
 };
 
 export default SideNavigation;
