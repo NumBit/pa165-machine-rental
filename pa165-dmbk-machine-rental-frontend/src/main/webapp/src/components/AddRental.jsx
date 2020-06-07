@@ -63,8 +63,11 @@ export const AddRental = () => {
     const [machines, setMachines] = useState([]);
 
     useEffect(() => {
-       getAuthenticatedUser();
-       getAllMachines();
+        if(machineId){
+            getMachineById(machineId);
+        }
+        getAuthenticatedUser();
+        getAllMachines();
     }, []);
 
 
@@ -86,7 +89,7 @@ export const AddRental = () => {
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    Add rental
+                    {machineId ? <> Rent {machine.name} </> : <> Add rental</>}
                 </Typography>
                 <Formik
                     initialValues={{
@@ -98,7 +101,11 @@ export const AddRental = () => {
                 }}
                     validationSchema={RentalSchema}
                     onSubmit={values => {
-                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, values.machine, user).then(response => {setCreatingResponse(response.data); redirectBackToList(response.data)})}}
+                        RentalDataService.createRental(values.description, values.rentalDate, values.returnDate, machineId? machine : values.machine, user).then(response => {
+                            setCreatingResponse(response.data);
+                            redirectBackToList(response.data)
+                        })
+                    }}
                 >
 
                     {({errors, handleChange, touched }) => (
@@ -151,7 +158,7 @@ export const AddRental = () => {
                                                 ? errors.returnDate : null}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                {!machineId ? <Grid item xs={12}>
                                     <TextField
                                         variant="outlined"
                                         error={Boolean(errors.machine && touched.machine)}
@@ -165,14 +172,19 @@ export const AddRental = () => {
                                         style={{minWidth:400}}
                                     >
                                         {machines.map((option) => (
-                                            <MenuItem key={option} value={option}>
+                                            <MenuItem key={option}
+                                                      value={option}>
                                                 {option.name}
                                             </MenuItem>
                                         ))}
                                     </TextField>
-                                </Grid>
-                                    {(creatingResponse === -1) ? <Grid item xs={12}><Alert severity="error">Machine is not available in selected dates!</Alert> </Grid>: null}
-                                    {creatingResponse === -2 ? <Grid item xs={12}><Alert severity="error">Machine not found!</Alert> </Grid>: null}
+                                </Grid> : null}
+                                {(creatingResponse === -1) ?
+                                    <Grid item xs={12}><Alert severity="error">Machine is not available in selected
+                                        dates!</Alert> </Grid> : null}
+                                {creatingResponse === -2 ?
+                                    <Grid item xs={12}><Alert severity="error">Machine not found!</Alert>
+                                    </Grid> : null}
                                 <Grid item xs={12} className={classes.center}>
                                     <Button
                                         type="submit"
